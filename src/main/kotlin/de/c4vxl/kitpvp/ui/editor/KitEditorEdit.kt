@@ -19,7 +19,8 @@ import kotlin.math.min
  */
 class KitEditorEdit(
     val editor: KitEditor,
-    val item: KitItem,
+    val slot: Int,
+    var item: KitItem,
     val handleResult: (KitItem) -> Unit
 ) {
     private val title = editor.language.getCmp("editor.page.edit.title", editor.kit.name)
@@ -48,7 +49,6 @@ class KitEditorEdit(
                                     item.name = name
                                     open()
                                 })
-                            editor.updateRegistry()
                         }
                         .build())
 
@@ -99,9 +99,11 @@ class KitEditorEdit(
     }
 
     private fun open() {
-        editor.player.inventory.clear()
-        editor.player.openInventory(baseInventory)
-        editor.updateRegistry()
+        editor.kit.inventory[slot] = item
+
         handleResult(item)
+
+        editor.player.openInventory(baseInventory)
+        editor.player.inventory.clear()
     }
 }

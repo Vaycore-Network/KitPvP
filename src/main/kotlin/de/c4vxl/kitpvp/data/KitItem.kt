@@ -4,13 +4,15 @@ import de.c4vxl.gamemanager.utils.ItemBuilder
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 
 data class KitItem(
     var material: Material,
     var amount: Int = 1,
     var unbreakable: Boolean = false,
-    var name: String? = null
+    var name: String? = null,
+    var enchantments: MutableMap<Enchantment, Int> = mutableMapOf()
 ) {
     val nameComponent: Component get() =
         // Load custom name as component
@@ -42,7 +44,7 @@ data class KitItem(
                 item.type,
                 item.amount,
                 meta?.isUnbreakable ?: false,
-                meta?.displayName()?.let { MiniMessage.miniMessage().serialize(it) }
+                meta?.itemName()?.let { MiniMessage.miniMessage().serialize(it) }?.takeIf { it.isNotBlank() }
             )
         }
     }

@@ -72,12 +72,15 @@ object KitEditorItems {
         ItemBuilder(
             item.material,
             item.nameComponent,
+            amount = item.amount,
             lore = mutableListOf(
                 Component.empty(),
                 editor.language.getCmp("editor.item.inv.lore.1") as TextComponent,
                 editor.language.getCmp("editor.item.inv.lore.2") as TextComponent,
                 editor.language.getCmp("editor.item.inv.lore.3") as TextComponent,
-            )
+            ),
+            unbreakable = item.unbreakable,
+            enchantments = item.enchantments
         )
             .guiItem { event ->
                 event.isCancelled = true
@@ -87,7 +90,7 @@ object KitEditorItems {
                     event.whoClicked.setItemOnCursor(event.currentItem?.clone())
 
                 if (event.isRightClick && event.isShiftClick)
-                    KitEditorEdit(editor, item) {
+                    KitEditorEdit(editor, event.slot, item) {
                     }
 
                 // Enable pickup with left click

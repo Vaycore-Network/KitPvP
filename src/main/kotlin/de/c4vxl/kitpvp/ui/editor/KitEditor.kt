@@ -144,11 +144,8 @@ class KitEditor(
      * @param inv The ui to open
      */
     private fun open(inv: Inventory) {
-        player.inventory.clear()
-        kit.inventory.toList().forEach { (slot, item) ->
-            player.inventory.setItem(slot, KitEditorItems.editableItem(item, this))
-        }
-        
+        loadLower()
+
         if (player.openInventory.topInventory.size == inv.size && player.openInventory.title() == title) {
             player.openInventory.topInventory.contents = inv.contents
         }
@@ -157,6 +154,16 @@ class KitEditor(
 
         // Add inventory
         updateRegistry()
+    }
+
+    /**
+     * Loads the players lower inventory
+     */
+    fun loadLower() {
+        player.inventory.clear()
+        kit.inventory.toList().forEach { (slot, item) ->
+            player.inventory.setItem(slot, KitEditorItems.editableItem(item, this))
+        }
     }
 
     /**
@@ -174,18 +181,5 @@ class KitEditor(
      */
     fun updateRegistry() {
         KitEditorHandler.openEditors[player.uniqueId] = this
-    }
-
-    /**
-     * Saves the inventory to the kit config
-     */
-    fun updateKit() {
-        player.inventory.storageContents.forEachIndexed { i, item ->
-            val kitItem = item?.let { KitItem.fromItem(item) }
-            if (kitItem == null)
-                kit.inventory.remove(i)
-            else
-                kit.inventory[i] = kitItem
-        }
     }
 }
