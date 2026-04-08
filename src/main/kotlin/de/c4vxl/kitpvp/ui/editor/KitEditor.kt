@@ -145,7 +145,7 @@ class KitEditor(
      */
     private fun open(inv: Inventory) {
         player.inventory.clear()
-        kit.inventory.toList().distinct().forEach { (slot, item) ->
+        kit.inventory.toList().forEach { (slot, item) ->
             player.inventory.setItem(slot, KitEditorItems.editableItem(item, this))
         }
         
@@ -173,7 +173,7 @@ class KitEditor(
      * Updates the opened editor ui inventory
      */
     fun updateRegistry() {
-        KitEditorHandler.openEditors[player.openInventory.topInventory] = this
+        KitEditorHandler.openEditors[player.uniqueId] = this
     }
 
     /**

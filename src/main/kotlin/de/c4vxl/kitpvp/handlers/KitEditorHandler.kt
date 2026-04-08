@@ -10,13 +10,14 @@ import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.Inventory
+import java.util.UUID
 
 /**
  * Overwrites some default behaviour of the lobby plugin to make the KitEditor UI work properly
  */
 class KitEditorHandler : Listener {
     companion object {
-        val openEditors = mutableMapOf<Inventory, KitEditor>()
+        val openEditors = mutableMapOf<UUID, KitEditor>()
     }
     
     init {
@@ -25,11 +26,13 @@ class KitEditorHandler : Listener {
 
     @EventHandler
     fun onInvClose(event: InventoryCloseEvent) {
-        if (!openEditors.contains(event.inventory))
+        if (!openEditors.contains(event.player.uniqueId))
             return
 
+        openEditors[event.player.uniqueId]?.updateKit()
+
         // Remove open editor
-        openEditors.remove(event.inventory)
+        openEditors.remove(event.player.uniqueId)
 
         // Clear items
         event.inventory.clear()
@@ -37,7 +40,7 @@ class KitEditorHandler : Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onInv(event: InventoryClickEvent) {
-        if (!openEditors.contains(event.view.topInventory))
+        if (!openEditors.contains(event.whoClicked.uniqueId))
             return
 
         // Allow placing items
