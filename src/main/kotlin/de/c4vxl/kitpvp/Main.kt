@@ -41,6 +41,9 @@ class Main : JavaPlugin() {
                 )
             }
 
+        // Save configs
+        saveResource("kiteditor.json", false)
+
         if (Bukkit.getPluginManager().isPluginEnabled("GameLobby"))
             LobbyHandler()
 

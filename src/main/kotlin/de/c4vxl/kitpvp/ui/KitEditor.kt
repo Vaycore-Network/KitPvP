@@ -9,6 +9,7 @@ import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
@@ -18,12 +19,14 @@ import org.bukkit.inventory.Inventory
  */
 class KitEditor(
     val player: Player,
-    val language: Language = player.language.child("kitpvp"),
-    val kitName: String
+    val kitName: String,
+    val language: Language = player.language.child("kitpvp")
 ) {
-    val inventory: Inventory
+    private val title = language.getCmp("editor.page.main.title", kitName)
+
+    val baseInventory: Inventory
         get() =
-            Bukkit.createInventory(null, 9 * 6, language.getCmp("editor.page.main.title", kitName))
+            Bukkit.createInventory(null, 9 * 6, title)
                 .apply {
                     for (i in 0..8)
                         setItem(i, Item.marginItem(Material.BLACK_STAINED_GLASS_PANE))
@@ -47,10 +50,16 @@ class KitEditor(
                     setItem(45, item(Material.ARMOR_STAND, "boots").guiItem {  }.build())
 
                     // Tab items
-                    setItem(12, item(Material.DIAMOND_SWORD, "weapons", "section").guiItem {}.build())
-                    setItem(13, item(Material.COOKED_BEEF, "consumables", "section").guiItem {}.build())
-                    setItem(14, item(Material.END_STONE, "blocks", "section").guiItem {}.build())
-                    setItem(15, item(Material.DIAMOND, "utils", "section").guiItem {}.build())
+                    mapOf(
+                        "weapons" to Material.DIAMOND_SWORD,
+                        "consumables" to Material.COOKED_BEEF,
+                        "blocks" to Material.END_STONE,
+                        "utils" to Material.DIAMOND
+                    ).toList().forEachIndexed { i, (key, material) ->
+                        setItem(12 + i, item(material, key, "section").guiItem { open(key) }.build())
+                    }
+
+                    setItem(17, item(Material.NAME_TAG, "search", "section").guiItem {  }.build())
                 }
 
     /**
@@ -72,11 +81,11 @@ class KitEditor(
     }
 
     /**
-     * Returns a base inventory and adds a list of items
+     * Returns a base baseInventory and adds a list of items
      * @param items The list of items (more than 18 will be discarded)
      */
     private fun withItems(items: List<ItemBuilder>): Inventory =
-        inventory.apply {
+        baseInventory.apply {
             val marginItem = Item.marginItem(Material.BLACK_STAINED_GLASS_PANE)
 
             for (i in 0..17) {
@@ -88,14 +97,34 @@ class KitEditor(
             }
         }
 
-    fun discard(event: InventoryClickEvent) {
+    private fun discard(event: InventoryClickEvent) {
+        val player = event.whoClicked as Player
 
+        if (!(event.isShiftClick && event.isRightClick)) {
+            player.playSound(player.location, Sound.ENTITY_VILLAGER_NO, 3f, 1f)
+            return
+        }
+
+        player.playSound(player.location, Sound.BLOCK_ANVIL_HIT, 3f, 2f)
     }
 
-    fun save(event: InventoryClickEvent) {
+    private fun save(event: InventoryClickEvent) {
+        val player = event.whoClicked as Player
 
+        player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3f, 2f)
     }
 
-    fun open() =
-        player.openInventory(inventory)
+    /**
+     * Opens the ui at a specific page/section
+     * @param section The section to open
+     */
+    fun open(section: String = "weapons") {
+        val inv = withItems(KitEditorItems.getItems(player, section))
+
+        if (player.openInventory.topInventory.size == inv.size && player.openInventory.title() == title) {
+            player.openInventory.topInventory.contents = inv.contents
+        }
+        else
+            player.openInventory(inv)
+    }
 }

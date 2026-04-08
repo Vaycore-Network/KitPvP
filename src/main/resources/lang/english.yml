@@ -20,3 +20,6 @@
 "editor.section.consumables.name": "<red>Consumables</red>"
 "editor.section.blocks.name": "<red>Blocks</red>"
 "editor.section.utils.name": "<red>Utility items</red>"
+"editor.section.search.name": "<red>Search</red>"
+
+"editor.item.equip.lore": "<gray>Click to equip</gray>"

@@ -1,0 +1,52 @@
+{
+    "weapons": [
+        "DIAMOND_SWORD",
+        "DIAMOND_AXE",
+        "DIAMOND_PICKAXE",
+        "DIAMOND_SHOVEL",
+        "DIAMOND_SPEAR",
+        "MACE",
+        "BOW",
+        "CROSSBOW",
+        "ARROW",
+        "FISHING_ROD"
+    ],
+    "consumables": [
+        "GOLDEN_APPLE",
+        "ENCHANTED_GOLDEN_APPLE",
+        "COOKED_BEEF",
+        "COOKED_PORKCHOP",
+        "GOLDEN_CARROT",
+        "ROTTEN_FLESH",
+        "PUFFERFISH",
+        "SWEET_BERRIES",
+        "HONEY_BOTTLE",
+        "MILK_BUCKET"
+    ],
+    "blocks": [
+        "OAK_LOG",
+        "OAK_PLANKS",
+        "OAK_DOOR",
+        "OBSIDIAN",
+        "END_STONE",
+        "COBBLESTONE",
+        "COBBLESTONE_WALL",
+        "COBWEB"
+    ],
+    "utils": [
+        "ENDER_PEARL",
+        "TOTEM_OF_UNDYING",
+        "BUCKET",
+        "OAK_BOAT",
+        "WIND_CHARGE",
+        "FLINT_AND_STEEL",
+        "TNT",
+        "TNT_MINECART",
+        "RAIL",
+        "SLIME_BLOCK",
+        "EXPERIENCE_BOTTLE",
+        "END_CRYSTAL",
+        "RESPAWN_ANCHOR",
+        "GLOWSTONE"
+    ]
+}

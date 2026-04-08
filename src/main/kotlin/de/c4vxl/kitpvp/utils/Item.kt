@@ -49,7 +49,7 @@ object Item {
     }
 
     /**
-     * Listens to inventory clicks
+     * Listens to baseInventory clicks
      * @param action The action to happen when the item gets clicked
      */
     fun ItemBuilder.guiItem(action: ((InventoryClickEvent) -> Unit)? = null): ItemBuilder {
@@ -68,9 +68,19 @@ object Item {
         return this
     }
 
+    /**
+     * Creates a margin item for baseInventory guis
+     * @param material The material
+     */
     fun marginItem(material: Material): ItemStack =
         ItemBuilder(
             material,
             Component.empty()
         ).guiItem().build()
+            .apply {
+                this.itemMeta = this.itemMeta.apply {
+                    setMaxStackSize(1)
+                    addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                }
+            }
 }
