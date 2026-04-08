@@ -3,10 +3,14 @@ package de.c4vxl.kitpvp.ui.editor
 import de.c4vxl.gamemanager.language.Language
 import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.gamemanager.utils.ItemBuilder
+import de.c4vxl.kitpvp.data.Kit
 import de.c4vxl.kitpvp.utils.Item
+import de.c4vxl.kitpvp.utils.Item.addMarginItems
 import de.c4vxl.kitpvp.utils.Item.guiItem
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.minimessage.MiniMessage
+import net.minecraft.world.item.equipment.ArmorType
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -19,31 +23,27 @@ import org.bukkit.inventory.Inventory
  */
 class KitEditor(
     val player: Player,
-    val kitName: String,
+    val kit: Kit,
     val language: Language = player.language.child("kitpvp")
 ) {
-    private val title = language.getCmp("editor.page.main.title", kitName)
+    private val title = language.getCmp("editor.page.main.title", kit.name)
+    private var currentSection = "weapons"
 
     val baseInventory: Inventory
         get() =
             Bukkit.createInventory(null, 9 * 6, title)
                 .apply {
-                    val marginItem = Item.marginItem(Material.GRAY_STAINED_GLASS_PANE)
-                    listOf(0..8, 10..17, 45..53, 9..36 step 9, 17..45 step 9)
-                        .forEach {
-                            for (i in it)
-                                setItem(i, marginItem)
-                        }
+                    addMarginItems(0..8, 10..17, 45..53, 9..36 step 9, 17..45 step 9)
 
                     // Exit items
                     setItem(0, item(Material.RED_STAINED_GLASS_PANE, "discard").guiItem { discard(it) }.build())
                     setItem(8, item(Material.GREEN_STAINED_GLASS_PANE, "save").guiItem { save(it) }.build())
 
                     // Armor items
-                    setItem(2, item(Material.ARMOR_STAND, "helmet").guiItem {  }.build())
-                    setItem(3, item(Material.ARMOR_STAND, "chestplate").guiItem {  }.build())
-                    setItem(4, item(Material.ARMOR_STAND, "leggings").guiItem {  }.build())
-                    setItem(5, item(Material.ARMOR_STAND, "boots").guiItem {  }.build())
+                    armorItem(2, this, ArmorType.HELMET, "helmet")
+                    armorItem(3, this, ArmorType.CHESTPLATE, "chestplate")
+                    armorItem(4, this, ArmorType.LEGGINGS, "leggings")
+                    armorItem(5, this, ArmorType.BOOTS, "boots")
                     setItem(6, item(Material.ITEM_FRAME, "offhand").guiItem {  }.build())
 
                     // Tab items
@@ -96,6 +96,15 @@ class KitEditor(
             for (i in 0..21) {
                 addItem(
                     items.getOrNull(i)
+                        ?.guiItem {
+                            it.isCancelled = true
+
+                            it.whoClicked.setItemOnCursor(ItemBuilder(
+                                it.currentItem!!.type,
+                                Component.translatable(it.currentItem!!.type.translationKey())
+                            )
+                                .build())
+                        }
                         ?.build()
                         ?: marginItem
                 )
@@ -119,6 +128,17 @@ class KitEditor(
         player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3f, 2f)
     }
 
+    private fun armorItem(slot: Int, inventory: Inventory, type: ArmorType, armorKey: String) {
+        val item = kit.getArmorItem(type)
+
+        val key = if (item == null) "armor.empty" else armorKey
+        val material = item?.material ?: Material.ARMOR_STAND
+
+        inventory.setItem(slot, item(material, key).guiItem {
+            KitEditorArmor(this@KitEditor, type)
+        }.build())
+    }
+
     /**
      * Opens an ui for a player
      * @param inv The ui to open
@@ -129,14 +149,20 @@ class KitEditor(
         }
         else
             player.openInventory(inv)
+
+        player.inventory.clear()
+        kit.inventory.forEach { (slot, item) ->
+            player.inventory.setItem(slot, item.builder.build())
+        }
     }
 
     /**
      * Opens the ui at a specific page/section
      * @param section The section to open
      */
-    fun open(section: String = "weapons") {
-        val inv = withItems(KitEditorItems.getItems(player, section))
+    fun open(section: String? = null) {
+        currentSection = section ?: currentSection
+        val inv = withItems(KitEditorItems.getItems(player, currentSection))
         open(inv)
     }
 }

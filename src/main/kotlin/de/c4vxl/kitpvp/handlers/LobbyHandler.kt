@@ -4,6 +4,7 @@ import de.c4vxl.gamelobby.events.lobby.LobbyPlayerEquipEvent
 import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.Main
+import de.c4vxl.kitpvp.data.Kit
 import de.c4vxl.kitpvp.ui.editor.KitEditor
 import de.c4vxl.kitpvp.utils.Item.enchantmentGlow
 import de.c4vxl.kitpvp.utils.Item.onRightClick
@@ -31,7 +32,7 @@ class LobbyHandler : Listener {
             lang.getCmp("lobby.item.kit_editor"),
             enchantments = mutableMapOf(Enchantment.UNBREAKING to 1)
         )
-            .onRightClick { KitEditor(it.player, kitName = "Unnamed Kit").open() }
+            .onRightClick { KitEditor(it.player, Kit("Unnamed Kit")).open() }
             .build()
             .enchantmentGlow()
         )

@@ -8,6 +8,7 @@ import org.bukkit.entity.EntityType
 import org.bukkit.event.block.Action
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
@@ -83,4 +84,18 @@ object Item {
                     addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                 }
             }
+
+    /**
+     * Adds margin items in specific slots
+     * @param ranges The ranges where to put margin items
+     * @param material The material of the margin item
+     */
+    fun Inventory.addMarginItems(vararg ranges: IntProgression, material: Material = Material.GRAY_STAINED_GLASS_PANE) {
+        val marginItem = marginItem(material)
+        ranges
+            .forEach {
+                for (i in it)
+                    setItem(i, marginItem)
+            }
+    }
 }
