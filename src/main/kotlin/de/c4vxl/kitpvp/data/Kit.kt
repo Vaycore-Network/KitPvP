@@ -1,0 +1,47 @@
+package de.c4vxl.kitpvp.data
+
+import net.minecraft.world.item.equipment.ArmorType
+import org.bukkit.Material
+
+data class Kit(
+    var name: String,
+    var inventory: Map<Int, KitItem> = emptyMap(),
+    var helmet: KitItem? = null,
+    var chestplate: KitItem? = null,
+    var leggings: KitItem? = null,
+    var boots: KitItem? = null,
+    var offhand: KitItem? = null
+) {
+    /**
+     * Sets an armor piece
+     * @param type The armor slot
+     * @param material The armor material
+     */
+    fun setArmorPiece(type: ArmorType, material: Material?): KitItem? {
+        val item = material?.let { KitItem(it) }
+
+        when (type) {
+            ArmorType.HELMET -> this.helmet = item
+            ArmorType.CHESTPLATE -> this.chestplate = item
+            ArmorType.LEGGINGS -> this.leggings = item
+            ArmorType.BOOTS -> this.boots = item
+            else -> {}
+        }
+
+        return item
+    }
+
+    /**
+     * Returns an armor piece
+     * @param type The armor slot
+     */
+    fun getArmorItem(type: ArmorType): KitItem? {
+        return when (type) {
+            ArmorType.HELMET -> this.helmet
+            ArmorType.CHESTPLATE -> this.chestplate
+            ArmorType.LEGGINGS -> this.leggings
+            ArmorType.BOOTS -> this.boots
+            else -> null
+        }
+    }
+}
