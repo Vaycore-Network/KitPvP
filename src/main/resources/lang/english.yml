@@ -13,7 +13,7 @@
 "editor.page.rename.confirm": "<green>Rename</green>"
 
 "editor.page.rules.title": "${editor.title} <grey>| Rules</grey>"
-"editor.page.rules.save": "<green>Save and exit</green>"
+"editor.page.rules.save": "<green>Save and go back</green>"
 "editor.page.rules.reset": "<red><b>Reset rules</b></red>"
 
 "rule.always_day.name.true": "<gold>Always day:</gold> <green>Yes</green>"
@@ -35,6 +35,8 @@
 "rule.num_rounds.desc": "<gray>Sets the amount of matches</gray>"
 "rule.health.name": "<gold>Health:</gold> <green>$0</green>"
 "rule.health.desc": "<gray>Amount of health each player gets</gray>"
+"rule.active_effects.name": "<gold>Active potions</gold>"
+"rule.active_effects.desc": "<gray>Select potion effects that players will start with</gray>"
 
 "rule.type.boolean.lore.1": "<gray><white>Click</white> to toggle</gray>"
 
@@ -107,3 +109,10 @@
 
 "editor.item.inv.offhand.lore.1": "<gray><gold>Edit</gold>: Shift + Right click</gray>"
 "editor.item.inv.offhand.lore.2": "<gray><gold>Remove</gold>: Drop</gray>"
+
+"ui.effect.item.save": "<green>Save and go back</green>"
+"ui.effect.item.reset": "<gold>Reset effects</gold>"
+"ui.effect.item.lore.1": "<gold>Current level:</gold> <gray>$0</gray>"
+"ui.effect.item.lore.2": ""
+"ui.effect.item.lore.3": "<white>Left click</white> <gray>to <b>add</b> one</gray>"
+"ui.effect.item.lore.4": "<white>Right click</white> <gray>to <b>subtract</b> one</gray>"
