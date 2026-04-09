@@ -2,6 +2,7 @@ package de.c4vxl.kitpvp.data
 
 import de.c4vxl.gamemanager.language.Language
 import net.kyori.adventure.text.TextComponent
+import net.minecraft.world.item.alchemy.Potion
 import org.bukkit.Material
 
 enum class KitGameRule(
@@ -14,7 +15,8 @@ enum class KitGameRule(
     ITEM_DROP(Material.STRING, Boolean::class.java),
     ALLOW_BLOCK_BREAKING(Material.IRON_PICKAXE, Boolean::class.java),
     NUM_ROUNDS(Material.COMPASS, Int::class.java),
-    HEALTH(Material.GOLDEN_APPLE, Double::class.java)
+    HEALTH(Material.GOLDEN_APPLE, Double::class.java),
+    ACTIVE_EFFECTS(Material.BREWING_STAND, Potion::class.java)
 
     ;
 

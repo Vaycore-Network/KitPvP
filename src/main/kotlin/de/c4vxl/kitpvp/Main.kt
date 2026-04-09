@@ -45,6 +45,7 @@ class Main : JavaPlugin() {
         // Save configs
         saveResource("kiteditor.json", false)
         saveResource("enchantmentIcons.json", false)
+        saveResource("potionEffects.json", false)
 
         if (Bukkit.getPluginManager().isPluginEnabled("GameLobby"))
             LobbyHandler()
