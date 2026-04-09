@@ -2,9 +2,19 @@ package de.c4vxl.kitpvp.data
 
 import org.bukkit.Material
 
+private val tierOrder = mapOf(
+    "WOODEN" to 0,
+    "STONE" to 1,
+    "GOLDEN" to 2,
+    "COPPER" to 3,
+    "IRON" to 4,
+    "DIAMOND" to 5,
+    "NETHERITE" to 6
+)
+
 private fun findMaterials(id: String) =
     Material.entries.filter { it.name.endsWith("_$id") }
-        .sortedBy { ItemType.tierOrder[it.name.substringBefore("_")] ?: Int.MAX_VALUE }
+        .sortedBy { tierOrder.getOrDefault(it.name.substringBefore("_"), Int.MAX_VALUE) }
 
 enum class ItemType(
     val materials: List<Material>
@@ -23,16 +33,6 @@ enum class ItemType(
     ;
 
     companion object {
-        val tierOrder = mapOf(
-            "WOODEN" to 0,
-            "STONE" to 1,
-            "GOLDEN" to 2,
-            "COPPER" to 3,
-            "IRON" to 4,
-            "DIAMOND" to 5,
-            "NETHERITE" to 6
-        )
-
         /**
          * Returns an item type from a material
          * @param material The material
