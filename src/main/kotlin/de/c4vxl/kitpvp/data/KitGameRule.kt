@@ -11,6 +11,8 @@ enum class KitGameRule(
     ALWAYS_DAY(Material.CLOCK, Boolean::class.java),
     KEEP_INVENTORY(Material.CHEST, Boolean::class.java),
     FALL_DAMAGE(Material.DIAMOND_BOOTS, Boolean::class.java),
+    ITEM_DROP(Material.STRING, Boolean::class.java),
+    ALLOW_BLOCK_BREAKING(Material.IRON_PICKAXE, Boolean::class.java),
     NUM_ROUNDS(Material.COMPASS, Int::class.java),
     HEALTH(Material.GOLDEN_APPLE, Double::class.java)
 

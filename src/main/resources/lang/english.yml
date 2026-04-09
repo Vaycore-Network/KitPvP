@@ -24,6 +24,14 @@
 "rule.fall_damage.name.true": "<gold>Fall damage:</gold> <green>Yes</green>"
 "rule.fall_damage.name.false": "<gold>Fall damage:</gold> <red>No</red>"
 "rule.fall_damage.desc": "<gray>If disabled, players won't take fall damage</gray>"
+"rule.item_drop.name.true": "<gold>Allow dropping items:</gold> <green>Yes</green>"
+"rule.item_drop.name.false": "<gold>Allow dropping items:</gold> <red>No</red>"
+"rule.item_drop.desc": "<gray>If disabled, players won't be able to drop items</gray>"
+
+"rule.allow_block_breaking.name.true": "<gold>Allow block breaking:</gold> <green>Yes</green>"
+"rule.allow_block_breaking.name.false": "<gold>Allow block breaking:</gold> <red>No</red>"
+"rule.allow_block_breaking.desc": "<gray>If disabled, players won't be able to break blocks</gray>"
+
 "rule.num_rounds.name": "<gold>Amount of rounds:</gold> <green>$0</green>"
 "rule.num_rounds.desc": "<gray>Sets the amount of matches</gray>"
 "rule.health.name": "<gold>Health:</gold> <green>$0</green>"

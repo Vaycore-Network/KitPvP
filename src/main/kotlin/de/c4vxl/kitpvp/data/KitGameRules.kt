@@ -7,6 +7,8 @@ data class KitGameRules(
     var isAlwaysDay: Boolean = true,
     var isKeepInventory: Boolean = true,
     var isFallDamage: Boolean = true,
+    var isItemDrop: Boolean = true,
+    var isAllowBlockBreaking: Boolean = true,
     var numRounds: Int = 3,
     var health: Double = 20.0
 )
