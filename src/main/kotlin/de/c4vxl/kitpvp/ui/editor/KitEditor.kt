@@ -31,7 +31,8 @@ class KitEditor(
     val player: Player,
     val kit: Kit,
     val language: Language = player.language.child("kitpvp"),
-    val onDone: (Kit) -> Unit
+    val onDone: (Kit) -> Unit,
+    val onClose: () -> Unit
 ) {
     private val title = language.getCmp("editor.page.main.title", kit.name)
     private var currentSection = "weapons"
@@ -166,6 +167,7 @@ class KitEditor(
         // Close editor
         KitEditorHandler.nonClosable.remove(player.uniqueId)
         player.closeInventory()
+        onClose()
 
         player.playSound(player.location, Sound.BLOCK_ANVIL_HIT, 3f, 2f)
     }
@@ -191,6 +193,7 @@ class KitEditor(
                 player.playSound(player.location, Sound.ENTITY_PLAYER_LEVELUP, 5f, 1f)
 
                 onDone(kit)
+                onClose()
             },
             kit.name
         )

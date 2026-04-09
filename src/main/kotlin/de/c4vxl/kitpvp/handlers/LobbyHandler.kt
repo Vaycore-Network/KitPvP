@@ -1,6 +1,7 @@
 package de.c4vxl.kitpvp.handlers
 
 import de.c4vxl.gamelobby.events.lobby.LobbyPlayerEquipEvent
+import de.c4vxl.gamelobby.lobby.Lobby
 import de.c4vxl.gamelobby.lobby.Lobby.isInLobby
 import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.gamemanager.utils.ItemBuilder
@@ -42,10 +43,12 @@ class LobbyHandler : Listener {
                 val json = file.takeIf { f -> f.exists() }?.readText()
                 val kit = json?.let { j -> Kit.fromJson(j) } ?: Kit("Unnamed Kit")
 
-                KitEditor(it.player, kit) { final ->
+                KitEditor(it.player, kit, onClose = {
+                    Lobby.send(event.player)
+                }, onDone = { final ->
                     file.createNewFile()
                     file.writeText(final.toJson(true))
-                }
+                })
             }
             .build()
             .enchantmentGlow()
