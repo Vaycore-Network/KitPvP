@@ -15,7 +15,6 @@ import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 /**
  * Handles the kiteditor.json config
@@ -68,7 +67,7 @@ object KitEditorItems {
      * @param item The item
      * @param editor The kit editor ui
      */
-    fun editableItem(item: KitItem, editor: KitEditor): ItemStack =
+    fun editableItem(item: KitItem, editor: KitEditor): ItemBuilder =
         ItemBuilder(
             item.material,
             item.nameComponent,
@@ -108,5 +107,4 @@ object KitEditorItems {
                 event.isCancelled = false
                 event.itemDrop.remove()
             }
-            .build()
 }

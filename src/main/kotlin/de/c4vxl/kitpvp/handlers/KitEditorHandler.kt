@@ -41,6 +41,9 @@ class KitEditorHandler : Listener {
     fun onInv(event: InventoryClickEvent) {
         val editor = openEditors[event.whoClicked.uniqueId] ?: return
 
+        if (event.clickedInventory?.holder == null)
+            return
+
         // Allow placing items
         if (event.action == InventoryAction.PLACE_ALL) {
             event.isCancelled = false

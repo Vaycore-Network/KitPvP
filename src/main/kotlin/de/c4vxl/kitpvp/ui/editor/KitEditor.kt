@@ -10,6 +10,7 @@ import de.c4vxl.kitpvp.ui.editor.type.KitEditorItems
 import de.c4vxl.kitpvp.utils.Item
 import de.c4vxl.kitpvp.utils.Item.addMarginItems
 import de.c4vxl.kitpvp.utils.Item.guiItem
+import de.c4vxl.kitpvp.utils.Item.onDrop
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -18,8 +19,10 @@ import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
+import org.w3c.dom.Text
 
 /**
  * The Kit editor gui
@@ -48,9 +51,41 @@ class KitEditor(
                     armorItem(4, this, ArmorType.LEGGINGS, "leggings")
                     armorItem(5, this, ArmorType.BOOTS, "boots")
 
-                    setItem(6, item(Material.ITEM_FRAME, "offhand").guiItem { event ->
+                    // Offhand item
+                    if (kit.offhand == null)
+                        setItem(6, item(Material.ITEM_FRAME, "offhand").guiItem { event ->
+                            if (event.action != InventoryAction.SWAP_WITH_CURSOR)
+                                return@guiItem
 
-                    }.build())
+                            kit.offhand = KitItem.fromItem(event.cursor)
+                            event.whoClicked.setItemOnCursor(null)
+                            open()
+                        }.build())
+
+                    else
+                        setItem(6, KitEditorItems.editableItem(kit.offhand!!, this@KitEditor)
+                            .apply { lore = mutableListOf(
+                                Component.empty(),
+                                language.getCmp("editor.item.inv.offhand.lore.1") as TextComponent,
+                                language.getCmp("editor.item.inv.offhand.lore.2") as TextComponent
+                            ) }
+                            .guiItem {
+                                if (it.isRightClick && it.isShiftClick)
+                                    KitEditorEdit(this@KitEditor, kit.offhand!!) { updated ->
+                                        kit.offhand = updated
+                                    }
+
+                                if (it.action.name.contains("DROP")) {
+                                    kit.offhand = null
+                                    open()
+                                }
+                            }
+                            .onDrop {
+                                kit.offhand = null
+                                it.itemDrop.remove()
+                                open()
+                            }
+                            .build())
 
                     // Tab items
                     mapOf(
@@ -107,7 +142,7 @@ class KitEditor(
                             it.whoClicked.setItemOnCursor(KitEditorItems.editableItem(
                                 KitItem(it.currentItem!!.type),
                                 this@KitEditor
-                            ))
+                            ).build())
                         }
                         ?.build()
                         ?: marginItem
@@ -189,7 +224,7 @@ class KitEditor(
     fun loadLower() {
         player.inventory.clear()
         kit.inventory.toList().forEach { (slot, item) ->
-            player.inventory.setItem(slot, KitEditorItems.editableItem(item, this))
+            player.inventory.setItem(slot, KitEditorItems.editableItem(item, this).build())
         }
     }
 

@@ -62,3 +62,6 @@
 "editor.item.inv.lore.1": "<gray><gold>Edit</gold>: Shift + Right click</gray>"
 "editor.item.inv.lore.2": "<gray><gold>Copy</gold>: Right click</gray>"
 "editor.item.inv.lore.3": "<gray><gold>Remove</gold>: Drop</gray>"
+
+"editor.item.inv.offhand.lore.1": "<gray><gold>Edit</gold>: Shift + Right click</gray>"
+"editor.item.inv.offhand.lore.2": "<gray><gold>Remove</gold>: Drop</gray>"
