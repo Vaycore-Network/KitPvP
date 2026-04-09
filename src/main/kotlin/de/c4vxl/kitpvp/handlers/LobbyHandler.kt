@@ -14,6 +14,7 @@ import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import java.io.File
 
 /**
  * Intercepts the GameLobby plugin and adds KitPvP-specific logic
@@ -36,8 +37,15 @@ class LobbyHandler : Listener {
             .onRightClick {
                 if (!event.player.isInLobby)
                     return@onRightClick
-                
-                KitEditor(it.player, Kit("Unnamed Kit")).open()
+
+                val file = File("kit.json")
+                val json = file.takeIf { f -> f.exists() }?.readText()
+                val kit = json?.let { j -> Kit.fromJson(j) } ?: Kit("Unnamed Kit")
+
+                KitEditor(it.player, kit) { final ->
+                    file.createNewFile()
+                    file.writeText(final.toJson(true))
+                }
             }
             .build()
             .enchantmentGlow()

@@ -12,6 +12,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
@@ -63,7 +64,7 @@ class KitEditorHandler : Listener {
 
         val editor = openEditors[event.whoClicked.uniqueId] ?: return
 
-        if (event.clickedInventory?.holder == null)
+        if (event.clickedInventory?.type != InventoryType.PLAYER)
             return
 
         // Allow placing items

@@ -30,7 +30,8 @@ import org.bukkit.inventory.Inventory
 class KitEditor(
     val player: Player,
     val kit: Kit,
-    val language: Language = player.language.child("kitpvp")
+    val language: Language = player.language.child("kitpvp"),
+    val onDone: (Kit) -> Unit
 ) {
     private val title = language.getCmp("editor.page.main.title", kit.name)
     private var currentSection = "weapons"
@@ -189,8 +190,7 @@ class KitEditor(
 
                 player.playSound(player.location, Sound.ENTITY_PLAYER_LEVELUP, 5f, 1f)
 
-                // Log kit
-                println(kit)
+                onDone(kit)
             },
             kit.name
         )
@@ -278,5 +278,9 @@ class KitEditor(
      */
     fun updateRegistry() {
         KitEditorHandler.openEditors[player.uniqueId] = this
+    }
+
+    init {
+        open()
     }
 }
