@@ -3,6 +3,7 @@ package de.c4vxl.kitpvp.ui.editor
 import de.c4vxl.gamemanager.language.Language
 import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.gamemanager.utils.ItemBuilder
+import de.c4vxl.kitpvp.Main
 import de.c4vxl.kitpvp.data.Kit
 import de.c4vxl.kitpvp.data.KitItem
 import de.c4vxl.kitpvp.handlers.KitEditorHandler
@@ -107,6 +108,8 @@ class KitEditor(
                                 }
                             )
                         )
+
+                        loadLower()
                     } }.build())
                 }
 
@@ -182,6 +185,7 @@ class KitEditor(
 
                 // Close editor
                 player.closeInventory()
+                player.inventory.clear()
 
                 // Log kit
                 println(kit)
