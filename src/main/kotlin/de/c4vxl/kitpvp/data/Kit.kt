@@ -9,7 +9,8 @@ data class Kit(
     var chestplate: KitItem? = null,
     var leggings: KitItem? = null,
     var boots: KitItem? = null,
-    var offhand: KitItem? = null
+    var offhand: KitItem? = null,
+    var rules: KitGameRules = KitGameRules()
 ) {
     /**
      * Sets an armor piece

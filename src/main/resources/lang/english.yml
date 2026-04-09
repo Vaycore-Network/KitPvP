@@ -12,6 +12,30 @@
 "editor.page.type.title": "${editor.title} <grey>| Change type</grey>"
 "editor.page.rename.confirm": "<green>Rename</green>"
 
+"editor.page.rules.title": "${editor.title} <grey>| Rules</grey>"
+"editor.page.rules.save": "<green>Save and exit</green>"
+
+"rule.always_day.name.true": "<gold>Always day:</gold> <green>Yes</green>"
+"rule.always_day.name.false": "<gold>Always day:</gold> <red>No</red>"
+"rule.always_day.desc": "<gray>If enabled, time won't advance</gray>"
+"rule.keep_inventory.name.true": "<gold>Keep inventory:</gold> <green>Yes</green>"
+"rule.keep_inventory.name.false": "<gold>Keep inventory:</gold> <red>No</red>"
+"rule.keep_inventory.desc": "<gray>If enabled, players will respawn with all their loot</gray>"
+"rule.fall_damage.name.true": "<gold>Fall damage:</gold> <green>Yes</green>"
+"rule.fall_damage.name.false": "<gold>Fall damage:</gold> <red>No</red>"
+"rule.fall_damage.desc": "<gray>If disabled, players won't take fall damage</gray>"
+"rule.num_rounds.name": "<gold>Amount of rounds:</gold> <green>$0</green>"
+"rule.num_rounds.desc": "<gray>Sets the amount of matches</gray>"
+"rule.health.name": "<gold>Health:</gold> <green>$0</green>"
+"rule.health.desc": "<gray>Amount of health each player gets</gray>"
+
+"rule.type.boolean.lore.1": "<gray><white>Click</white> to toggle</gray>"
+
+"rule.type.int.lore.1": "<gray><white>Left Click</white> to <b>add 1</b></gray>"
+"rule.type.int.lore.2": "<gray><white>Right Click</white> to <b>subtract 1</b></gray>"
+"rule.type.double.lore.1": "<gray><white>Left Click</white> to <b>add 0.5</b></gray>"
+"rule.type.double.lore.2": "<gray><white>Right Click</white> to <b>subtract 0.5</b></gray>"
+
 "editor.page.type.back": "<red>Go back</red>"
 
 "editor.page.enchant.item.lore.1": "<gold>Level:</gold> <gray>$0</gray>"
@@ -35,6 +59,9 @@
 
 "editor.page.edit.rename.title": "${editor.title} <grey>| Rename"
 "editor.page.edit.rename.confirm": "<green>Rename</green>"
+
+"editor.item.rules.name": "<red>Edit game rules</red>"
+"editor.item.rules.lore": "<gray>Modify the in-game experience by customizing general rules</gray>"
 
 "editor.item.discard.name": "<red>Discard changes</red>"
 "editor.item.discard.lore": "<gray><b>Shift + Right click</b> to discard</gray>"
