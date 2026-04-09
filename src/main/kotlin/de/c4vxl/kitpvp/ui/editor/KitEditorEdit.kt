@@ -1,6 +1,7 @@
 package de.c4vxl.kitpvp.ui.editor
 
 import de.c4vxl.gamemanager.utils.ItemBuilder
+import de.c4vxl.kitpvp.data.ItemType
 import de.c4vxl.kitpvp.data.KitItem
 import de.c4vxl.kitpvp.ui.general.AnvilUI
 import de.c4vxl.kitpvp.utils.Item.addMarginItems
@@ -91,6 +92,16 @@ class KitEditorEdit(
                             open()
                         }
                         .build())
+
+                    if (ItemType.fromMaterial(item.material) != null)
+                        setItem(40, ItemBuilder(Material.FLINT, editor.language.getCmp("editor.page.edit.item.type.name"))
+                            .guiItem {
+                                KitEditorType(editor, item) {
+                                    item = it
+                                    open()
+                                }
+                            }
+                            .build())
                 }
 
     init {

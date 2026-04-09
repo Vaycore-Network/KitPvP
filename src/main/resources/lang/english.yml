@@ -9,7 +9,10 @@
 "editor.page.edit.save": "<green>Save and go back</green>"
 "editor.page.enchant.reset": "<gold>Reset enchantments</gold>"
 "editor.page.rename.title": "${editor.title} <grey>| Name kit</grey>"
+"editor.page.type.title": "${editor.title} <grey>| Change type</grey>"
 "editor.page.rename.confirm": "<green>Rename</green>"
+
+"editor.page.type.back": "<red>Go back</red>"
 
 "editor.page.enchant.item.lore.1": "<gold>Level:</gold> <gray>$0</gray>"
 "editor.page.enchant.item.lore.2": ""
@@ -28,6 +31,7 @@
 "editor.page.edit.item.amount.lore.5": "<white>Right click:</white> <gray>-1</gray>"
 "editor.page.edit.item.amount.lore.6": "<white>Shift right click:</white> <gray>-8</gray>"
 "editor.page.edit.item.rename.name": "<gold>Rename item</gold>"
+"editor.page.edit.item.type.name": "<gold>Change material</gold>"
 
 "editor.page.edit.rename.title": "${editor.title} <grey>| Rename"
 "editor.page.edit.rename.confirm": "<green>Rename</green>"
