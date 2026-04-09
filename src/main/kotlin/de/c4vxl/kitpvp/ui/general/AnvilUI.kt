@@ -20,6 +20,7 @@ open class AnvilUI(
     private val titleTranslationKey: String,
     private val confirmTranslationKey: String,
     val onInput: (String) -> Unit,
+    val placeholder: String? = null,
     private val language: Language = player.language.child("kitpvp")
 ) {
     val baseView: AnvilView
@@ -31,7 +32,7 @@ open class AnvilUI(
             .apply {
                 bypassEnchantmentLevelRestriction(true)
 
-                topInventory.setItem(0, Item.marginItem(Material.NAME_TAG))
+                topInventory.setItem(0, Item.marginItem(Material.NAME_TAG, placeholder))
 
                 topInventory.setItem(1, ItemBuilder(
                     Material.GREEN_STAINED_GLASS_PANE,
