@@ -2,6 +2,7 @@ package de.c4vxl.kitpvp.ui.editor
 
 import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.data.KitGameRule
+import de.c4vxl.kitpvp.data.KitGameRules
 import de.c4vxl.kitpvp.utils.Item.addMarginItems
 import de.c4vxl.kitpvp.utils.Item.guiItem
 import net.kyori.adventure.text.Component
@@ -32,6 +33,15 @@ class KitEditorGameRules(
                     // Save
                     setItem(8, ItemBuilder(Material.GREEN_STAINED_GLASS_PANE, editor.language.getCmp("editor.page.rules.save"))
                         .guiItem { editor.open() }
+                        .build())
+
+                    setItem(36, ItemBuilder(Material.BARRIER, editor.language.getCmp("editor.page.rules.reset"))
+                        .guiItem {
+                            editor.kit.rules = KitGameRules()
+                            open()
+                            editor.player.stopAllSounds()
+                            editor.player.playSound(editor.player.location, Sound.BLOCK_GRINDSTONE_USE, 5f, 1f)
+                        }
                         .build())
 
                     addItem(createGameRuleItem(KitGameRule.ALWAYS_DAY, editor.kit.rules.isAlwaysDay) {

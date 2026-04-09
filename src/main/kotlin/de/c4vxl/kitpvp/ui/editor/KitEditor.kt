@@ -29,7 +29,7 @@ import org.bukkit.inventory.Inventory
  */
 class KitEditor(
     val player: Player,
-    val kit: Kit,
+    var kit: Kit,
     val language: Language = player.language.child("kitpvp"),
     val onDone: (Kit) -> Unit,
     val onClose: () -> Unit
@@ -48,6 +48,18 @@ class KitEditor(
                     setItem(8, item(Material.GREEN_STAINED_GLASS_PANE, "save").guiItem { save(it) }.build())
 
                     setItem(53, item(Material.COMMAND_BLOCK, "rules").guiItem { KitEditorGameRules(this@KitEditor) }.build())
+
+                    setItem(45, item(Material.BARRIER, "reset").guiItem {
+                        if (!(it.isShiftClick && it.isRightClick)) {
+                            player.playSound(player.location, Sound.ENTITY_VILLAGER_NO, 3f, 1f)
+                            return@guiItem
+                        }
+
+                        kit = Kit(kit.name)
+                        open()
+                        player.stopAllSounds()
+                        player.playSound(player.location, Sound.BLOCK_GRINDSTONE_USE, 5f, 1f)
+                    }.build())
 
                     // Armor items
                     armorItem(2, this, ArmorType.HELMET, "helmet")

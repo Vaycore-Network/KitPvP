@@ -14,6 +14,7 @@
 
 "editor.page.rules.title": "${editor.title} <grey>| Rules</grey>"
 "editor.page.rules.save": "<green>Save and exit</green>"
+"editor.page.rules.reset": "<red><b>Reset rules</b></red>"
 
 "rule.always_day.name.true": "<gold>Always day:</gold> <green>Yes</green>"
 "rule.always_day.name.false": "<gold>Always day:</gold> <red>No</red>"
@@ -27,11 +28,9 @@
 "rule.item_drop.name.true": "<gold>Allow dropping items:</gold> <green>Yes</green>"
 "rule.item_drop.name.false": "<gold>Allow dropping items:</gold> <red>No</red>"
 "rule.item_drop.desc": "<gray>If disabled, players won't be able to drop items</gray>"
-
 "rule.allow_block_breaking.name.true": "<gold>Allow block breaking:</gold> <green>Yes</green>"
 "rule.allow_block_breaking.name.false": "<gold>Allow block breaking:</gold> <red>No</red>"
 "rule.allow_block_breaking.desc": "<gray>If disabled, players won't be able to break blocks</gray>"
-
 "rule.num_rounds.name": "<gold>Amount of rounds:</gold> <green>$0</green>"
 "rule.num_rounds.desc": "<gray>Sets the amount of matches</gray>"
 "rule.health.name": "<gold>Health:</gold> <green>$0</green>"
@@ -76,6 +75,8 @@
 "editor.item.save.name": "<green>Save changes</green>"
 "editor.item.offhand.name": "<gold>Offhand</gold>"
 "editor.item.offhand.lore": "<gray>Place the item to appear in your offhand here</gray>"
+"editor.item.reset.name": "<red><b>Reset kit</b></red>"
+"editor.item.reset.lore": "<gray>Press <b>Shift + Right click</b> to reset the kit</gray>"
 
 "editor.page.armor.back": "<red>Go back</red>"
 "editor.page.armor.empty": "<gray>Empty</gray>"
