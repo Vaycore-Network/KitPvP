@@ -187,6 +187,8 @@ class KitEditor(
                 player.closeInventory()
                 player.inventory.clear()
 
+                player.playSound(player.location, Sound.ENTITY_PLAYER_LEVELUP, 5f, 1f)
+
                 // Log kit
                 println(kit)
             },
