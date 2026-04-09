@@ -7,6 +7,7 @@ import de.c4vxl.kitpvp.data.Kit
 import de.c4vxl.kitpvp.data.KitItem
 import de.c4vxl.kitpvp.handlers.KitEditorHandler
 import de.c4vxl.kitpvp.ui.editor.type.KitEditorItems
+import de.c4vxl.kitpvp.ui.general.AnvilUI
 import de.c4vxl.kitpvp.utils.Item
 import de.c4vxl.kitpvp.utils.Item.addMarginItems
 import de.c4vxl.kitpvp.utils.Item.guiItem
@@ -22,7 +23,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
-import org.w3c.dom.Text
 
 /**
  * The Kit editor gui
@@ -158,6 +158,9 @@ class KitEditor(
             return
         }
 
+        // Close editor
+        player.closeInventory()
+
         player.playSound(player.location, Sound.BLOCK_ANVIL_HIT, 3f, 2f)
     }
 
@@ -165,6 +168,24 @@ class KitEditor(
         val player = event.whoClicked as Player
 
         player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3f, 2f)
+
+        // Prompt for name
+        AnvilUI(
+            player,
+            "editor.page.rename.title",
+            "editor.page.rename.confirm",
+            {
+                kit.name = it.takeIf { it.isNotBlank() } ?: kit.name
+                updateRegistry()
+
+                // Close editor
+                player.closeInventory()
+
+                // Log kit
+                println(kit)
+            },
+            kit.name
+        )
     }
 
     private fun armorItem(slot: Int, inventory: Inventory, type: ArmorType, armorKey: String) {

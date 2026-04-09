@@ -2,6 +2,7 @@ package de.c4vxl.kitpvp.utils
 
 import de.c4vxl.gamemanager.utils.ItemBuilder
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.EntityType
@@ -88,10 +89,10 @@ object Item {
      * Creates a margin item for baseInventory guis
      * @param material The material
      */
-    fun marginItem(material: Material): ItemStack =
+    fun marginItem(material: Material, name: String? = null): ItemStack =
         ItemBuilder(
             material,
-            Component.empty()
+            name?.let { MiniMessage.miniMessage().deserialize(it) } ?: Component.empty()
         )
             .guiItem()
             .onDrop { it.itemDrop.remove() }

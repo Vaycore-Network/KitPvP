@@ -8,6 +8,8 @@
 "editor.page.enchant.title": "${editor.title} <grey>| Enchant</grey>"
 "editor.page.edit.save": "<green>Save and go back</green>"
 "editor.page.enchant.reset": "<gold>Reset enchantments</gold>"
+"editor.page.rename.title": "${editor.title} <grey>| Name kit</grey>"
+"editor.page.rename.confirm": "<green>Rename</green>"
 
 "editor.page.enchant.item.lore.1": "<gold>Level:</gold> <gray>$0</gray>"
 "editor.page.enchant.item.lore.2": ""
