@@ -42,5 +42,8 @@ class KitEditorItemSearch(
 
             // Similar matches
             .filter { it.name.lowercase().contains(lowerQuery) }
+
+            // Filter out invalid materials
+            .filter { it.isItem }
     }
 }
