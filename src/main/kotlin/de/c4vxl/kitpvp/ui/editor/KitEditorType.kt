@@ -9,6 +9,7 @@ import de.c4vxl.kitpvp.utils.Item.guiItem
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.inventory.Inventory
 
 /**
@@ -50,6 +51,7 @@ class KitEditorType(
                 }
 
     init {
+        editor.player.playSound(editor.player.location, Sound.BLOCK_SCAFFOLDING_BREAK, 5f, 0.5f)
         editor.player.openInventory(baseInventory)
         editor.player.inventory.clear()
     }

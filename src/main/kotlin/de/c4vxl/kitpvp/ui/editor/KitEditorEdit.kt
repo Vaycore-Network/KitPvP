@@ -111,6 +111,7 @@ class KitEditorEdit(
     private fun open() {
         onUpdate(item)
 
+        editor.player.playSound(editor.player.location, Sound.BLOCK_SCAFFOLDING_BREAK, 5f, 0.5f)
         editor.player.openInventory(baseInventory)
         editor.player.inventory.clear()
     }

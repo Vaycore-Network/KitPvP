@@ -3,6 +3,7 @@ package de.c4vxl.kitpvp.ui.editor
 import de.c4vxl.kitpvp.handlers.KitEditorHandler
 import de.c4vxl.kitpvp.ui.general.AnvilUI
 import org.bukkit.Material
+import org.bukkit.Sound
 
 /**
  * The Kit editor item search gui
@@ -22,6 +23,7 @@ class KitEditorItemSearch(
         )
 
         editor.player.inventory.clear()
+        editor.player.playSound(editor.player.location, Sound.BLOCK_SCAFFOLDING_BREAK, 5f, 0.5f)
 
         editor.updateRegistry()
     }

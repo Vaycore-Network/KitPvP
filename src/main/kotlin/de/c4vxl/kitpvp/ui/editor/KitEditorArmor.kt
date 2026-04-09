@@ -9,6 +9,7 @@ import de.c4vxl.kitpvp.utils.Item.guiItem
 import net.minecraft.world.item.equipment.ArmorType
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.inventory.Inventory
 
 /**
@@ -101,6 +102,7 @@ class KitEditorArmor(
     }
 
     init {
+        editor.player.playSound(editor.player.location, Sound.BLOCK_SCAFFOLDING_BREAK, 5f, 0.5f)
         editor.player.openInventory(baseInventory)
         editor.player.inventory.clear()
     }

@@ -45,6 +45,8 @@ class KitEditor(
                     setItem(0, item(Material.RED_STAINED_GLASS_PANE, "discard").guiItem { discard(it) }.build())
                     setItem(8, item(Material.GREEN_STAINED_GLASS_PANE, "save").guiItem { save(it) }.build())
 
+                    setItem(53, item(Material.COMMAND_BLOCK, "rules").guiItem { KitEditorGameRules(this@KitEditor) }.build())
+
                     // Armor items
                     armorItem(2, this, ArmorType.HELMET, "helmet")
                     armorItem(3, this, ArmorType.CHESTPLATE, "chestplate")
@@ -234,6 +236,8 @@ class KitEditor(
         }
         else
             player.openInventory(inv)
+
+        player.playSound(player.location, Sound.BLOCK_SCAFFOLDING_BREAK, 5f, 0.5f)
 
         // Add inventory
         updateRegistry()
