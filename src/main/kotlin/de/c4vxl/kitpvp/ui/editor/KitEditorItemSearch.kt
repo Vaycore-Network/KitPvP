@@ -12,8 +12,6 @@ class KitEditorItemSearch(
     val result: (List<Material>) -> Unit,
 ) {
     init {
-        editor.player.inventory.clear()
-
         AnvilUI(
             editor.player,
             "editor.page.search.title",
@@ -22,6 +20,8 @@ class KitEditorItemSearch(
                 result(query(it))
             }
         )
+
+        editor.player.inventory.clear()
 
         editor.updateRegistry()
     }
