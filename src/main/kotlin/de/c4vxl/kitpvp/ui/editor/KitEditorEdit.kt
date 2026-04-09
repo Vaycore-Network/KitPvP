@@ -4,6 +4,7 @@ import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.data.ItemType
 import de.c4vxl.kitpvp.data.KitItem
 import de.c4vxl.kitpvp.ui.general.AnvilUI
+import de.c4vxl.kitpvp.ui.general.PotionEffectsUI
 import de.c4vxl.kitpvp.utils.Item.addMarginItems
 import de.c4vxl.kitpvp.utils.Item.guiItem
 import net.kyori.adventure.text.TextComponent
@@ -93,13 +94,34 @@ class KitEditorEdit(
                         }
                         .build())
 
-                    if (ItemType.fromMaterial(item.material) != null)
+                    val type = ItemType.fromMaterial(item.material)
+                    if (type != null)
                         setItem(40, ItemBuilder(Material.FLINT, editor.language.getCmp("editor.page.edit.item.type.name"))
                             .guiItem {
                                 KitEditorType(editor, item) {
                                     item = it
                                     open()
                                 }
+                            }
+                            .build())
+
+                    if (item.material.name.contains("ARROW") || item.material.name.contains("POTION"))
+                        setItem(39, ItemBuilder(Material.BREWING_STAND, editor.language.getCmp("editor.page.edit.item.effect.name"))
+                            .guiItem {
+                                PotionEffectsUI(
+                                    editor.player,
+                                    "editor.page.edit.effect.title",
+                                    item.effectsMap.toMutableMap(),
+                                    {
+                                        if (it.isNotEmpty() && type == ItemType.ARROW)
+                                            item.material = Material.TIPPED_ARROW
+
+                                        item.effects = it.mapKeys { e -> e.key.name }.toMutableMap()
+
+                                        onUpdate(item)
+                                        open()
+                                    }
+                                )
                             }
                             .build())
                 }

@@ -13,21 +13,23 @@ private val tierOrder = mapOf(
 )
 
 private fun findMaterials(id: String) =
-    Material.entries.filter { it.name.endsWith("_$id") }
+    Material.entries.filter { it.name.endsWith(id) }
         .sortedBy { tierOrder.getOrDefault(it.name.substringBefore("_"), Int.MAX_VALUE) }
 
 enum class ItemType(
     val materials: List<Material>
 ) {
-    PICKAXE(findMaterials("PICKAXE")),
-    AXE(findMaterials("AXE")),
-    SWORD(findMaterials("SWORD")),
-    SHOVEL(findMaterials("SHOVEL")),
-    SPEAR(findMaterials("SPEAR")),
-    HELMET(findMaterials("HELMET")),
-    CHESTPLATE(findMaterials("CHESTPLATE")),
-    LEGGINGS(findMaterials("LEGGINGS")),
-    BOOTS(findMaterials("BOOTS"))
+    PICKAXE(findMaterials("_PICKAXE")),
+    AXE(findMaterials("_AXE")),
+    SWORD(findMaterials("_SWORD")),
+    SHOVEL(findMaterials("_SHOVEL")),
+    SPEAR(findMaterials("_SPEAR")),
+    HELMET(findMaterials("_HELMET")),
+    CHESTPLATE(findMaterials("_CHESTPLATE")),
+    LEGGINGS(findMaterials("_LEGGINGS")),
+    BOOTS(findMaterials("_BOOTS")),
+    ARROW(findMaterials("ARROW")),
+    POTION(findMaterials("POTION"))
 
 
     ;

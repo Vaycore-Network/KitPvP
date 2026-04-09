@@ -65,6 +65,9 @@
 "editor.page.edit.item.amount.lore.6": "<white>Shift right click:</white> <gray>-8</gray>"
 "editor.page.edit.item.rename.name": "<gold>Rename item</gold>"
 "editor.page.edit.item.type.name": "<gold>Change material</gold>"
+"editor.page.edit.item.effect.name": "<gold>Edit effects</gold>"
+
+"editor.page.edit.effect.title": "${editor.page.edit.title} - Effects"
 
 "editor.page.edit.rename.title": "${editor.title} <grey>| Rename"
 "editor.page.edit.rename.confirm": "<green>Rename</green>"

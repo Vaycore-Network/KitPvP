@@ -3,7 +3,12 @@ package de.c4vxl.kitpvp.data
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import net.minecraft.world.item.equipment.ArmorType
+import org.bukkit.entity.Arrow
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.PotionMeta
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 
 data class Kit(
     var name: String,

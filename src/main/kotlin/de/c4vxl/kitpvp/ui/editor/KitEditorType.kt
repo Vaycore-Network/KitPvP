@@ -40,6 +40,7 @@ class KitEditorType(
                             ?.let { addItem(ItemBuilder(
                                 it,
                                 Component.translatable(it.translationKey()),
+                                itemMeta = item.itemMeta
                             )
                                 .guiItem { _ ->
                                     item.material = it

@@ -5,14 +5,23 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.Arrow
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
+import org.bukkit.inventory.meta.PotionMeta
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
+import org.bukkit.potion.PotionType
+import kotlin.math.max
+import kotlin.math.min
 
 data class KitItem(
     var material: Material,
     var amount: Int = 1,
     var unbreakable: Boolean = false,
     var name: String? = null,
-    var enchantments: MutableMap<String, Int> = mutableMapOf()
+    var enchantments: MutableMap<String, Int> = mutableMapOf(),
+    var effects: MutableMap<String, Int> = mutableMapOf()
 ) {
     val nameComponent: Component get() =
         // Load custom name as component
@@ -24,13 +33,29 @@ data class KitItem(
     val enchantmentMap get() =
         enchantments.mapKeys { Enchantment.values().find { e -> e.name == it.key } ?: return@mapKeys Enchantment.UNBREAKING }.toMutableMap()
 
+    val effectsMap get() =
+        effects.mapNotNull { (PotionEffectType.getByName(it.key) ?: return@mapNotNull null) to it.value }.toMap()
+
+    val itemMeta: ItemMeta get() {
+        val meta = ItemStack(material).itemMeta
+
+        (meta as? PotionMeta)?.apply {
+            basePotionType = PotionType.WATER
+            val amplifier = if (material.name.contains("ARROW")) 8 else 1
+            effectsMap.forEach { addCustomEffect(PotionEffect(it.key, 200 * amplifier, max(0, it.value - 1)), true) }
+        }
+
+        return meta
+    }
+
     val builder: ItemBuilder get() =
         ItemBuilder(
             material = material,
             name = nameComponent,
             amount = amount,
             unbreakable = unbreakable,
-            enchantments = enchantmentMap
+            enchantments = enchantmentMap,
+            itemMeta = itemMeta
         )
 
     companion object {

@@ -68,19 +68,15 @@ object KitEditorItems {
      * @param editor The kit editor ui
      */
     fun editableItem(item: KitItem, editor: KitEditor): ItemBuilder =
-        ItemBuilder(
-            item.material,
-            item.nameComponent,
-            amount = item.amount,
-            lore = mutableListOf(
-                Component.empty(),
-                editor.language.getCmp("editor.item.inv.lore.1") as TextComponent,
-                editor.language.getCmp("editor.item.inv.lore.2") as TextComponent,
-                editor.language.getCmp("editor.item.inv.lore.3") as TextComponent,
-            ),
-            unbreakable = item.unbreakable,
-            enchantments = item.enchantmentMap
-        )
+        item.builder
+            .apply {
+                lore = mutableListOf(
+                    Component.empty(),
+                    editor.language.getCmp("editor.item.inv.lore.1") as TextComponent,
+                    editor.language.getCmp("editor.item.inv.lore.2") as TextComponent,
+                    editor.language.getCmp("editor.item.inv.lore.3") as TextComponent,
+                )
+            }
             .guiItem { event ->
                 event.isCancelled = true
 
