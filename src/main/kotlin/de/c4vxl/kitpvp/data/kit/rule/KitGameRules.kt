@@ -1,5 +1,7 @@
 package de.c4vxl.kitpvp.data.kit.rule
 
+import org.bukkit.entity.Player
+import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
 /**
@@ -22,4 +24,16 @@ data class KitGameRules(
         set(value) {
             activeEffects = value.mapKeys { it.key.name }.toMutableMap()
         }
+
+    /**
+     * Adds all active effects to a player
+     * @param player The player to add the effects to
+     */
+    fun giveEffects(player: Player) {
+        activeEffectsMap.forEach { (type, amplifier) ->
+            player.addPotionEffect(PotionEffect(
+                type, PotionEffect.INFINITE_DURATION, amplifier, true, false, false
+            ))
+        }
+    }
 }

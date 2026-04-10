@@ -38,6 +38,7 @@ object TryOn {
 
         // Equip kit
         kit.equip(player)
+        kit.rules.giveEffects(player)
 
         // Blind player
         player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, 9999999, 255, false, false, false))
