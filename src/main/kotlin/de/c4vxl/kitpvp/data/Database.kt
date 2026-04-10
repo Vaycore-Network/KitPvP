@@ -2,7 +2,7 @@ package de.c4vxl.kitpvp.data
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import de.c4vxl.gamelobby.Main
+import de.c4vxl.kitpvp.Main
 import de.c4vxl.kitpvp.data.struct.db.CachedData
 import de.c4vxl.kitpvp.data.struct.db.StoredData
 import org.bukkit.Bukkit
@@ -34,13 +34,14 @@ object Database {
     /**
      * Returns a configured version of GSON
      */
-    private val gson: Gson get() =
+    private val gson: Gson by lazy {
         GsonBuilder()
             .apply {
                 if (Main.instance.config.getBoolean("config.db.pretty-print", false))
                     setPrettyPrinting()
             }
             .create()
+    }
 
     private val cache = ConcurrentHashMap<UUID, CachedData>()
 
