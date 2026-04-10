@@ -33,11 +33,11 @@ class UIHandler : Listener {
         if (!(event.player as? Player ?: return).isInLobby)
             return
 
-        if (nonClosable.contains(event.player.uniqueId) && event.reason == InventoryCloseEvent.Reason.PLAYER) {
+        val ui = nonClosable[event.player.uniqueId] ?: return
+        if (event.reason == InventoryCloseEvent.Reason.PLAYER) {
             Bukkit.getScheduler().runTask(Main.instance, Runnable {
-                nonClosable[event.player.uniqueId]!!.open()
+                ui.open()
             })
-            return
         }
 
         nonClosable.remove(event.player.uniqueId)

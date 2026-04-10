@@ -30,7 +30,7 @@ import kotlin.math.min
 class KitEditorGameRules(
     val editor: KitEditor
 ) {
-    private val title = editor.language.getCmp("editor.page.rules.title", editor.kit.name)
+    private val title = editor.language.getCmp("editor.page.rules.title", editor.kit.metadata.name)
     private var currentPage = 0
 
     private val baseInventory: Inventory

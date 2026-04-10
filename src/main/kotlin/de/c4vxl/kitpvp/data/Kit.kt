@@ -3,15 +3,13 @@ package de.c4vxl.kitpvp.data
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import net.minecraft.world.item.equipment.ArmorType
-import org.bukkit.entity.Arrow
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.PotionMeta
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 data class Kit(
-    var name: String,
+    var metadata: KitMetadata,
     var inventory: MutableMap<Int, KitItem> = mutableMapOf(),
     var helmet: KitItem? = null,
     var chestplate: KitItem? = null,
@@ -83,8 +81,23 @@ data class Kit(
          * Restores a kit from json
          * @param json The json string
          */
-        fun fromJson(json: String): Kit =
-            Gson().fromJson(json, Kit::class.java)
+        fun fromJson(json: String?): Kit? {
+            if (json.isNullOrEmpty() || json.isBlank())
+                return null
+
+            return Gson().fromJson(json, Kit::class.java)
+        }
+
+        /**
+         * Creates a new kit
+         * @param name The name of the kit
+         * @param creator The creator of the kit
+         */
+        fun new(name: String, creator: OfflinePlayer) =
+            Kit(KitMetadata(
+                name,
+                creator.uniqueId.toString()
+            ))
     }
     
     override fun toString(): String { return toJson(true) }

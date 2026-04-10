@@ -27,7 +27,7 @@ class KitEditorEnchant(
     var item: KitItem,
     val onUpdate: (KitItem) -> Unit
 ) {
-    private val title = editor.language.getCmp("editor.page.enchant.title", editor.kit.name)
+    private val title = editor.language.getCmp("editor.page.enchant.title", editor.kit.metadata.name)
 
     /**
      * Holds a map of enchantments to their icon materials

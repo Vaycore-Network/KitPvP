@@ -19,7 +19,7 @@ class KitEditorArmor(
     val editor: KitEditor,
     val armorType: ArmorType
 ) {
-    private val title = editor.language.getCmp("editor.page.armor.title", editor.kit.name)
+    private val title = editor.language.getCmp("editor.page.armor.title", editor.kit.metadata.name)
 
     /**
      * Holds the different pages

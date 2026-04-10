@@ -24,7 +24,7 @@ class KitEditorEdit(
     var item: KitItem,
     val onUpdate: (KitItem) -> Unit
 ) {
-    private val title = editor.language.getCmp("editor.page.edit.title", editor.kit.name)
+    private val title = editor.language.getCmp("editor.page.edit.title", editor.kit.metadata.name)
 
     private val baseInventory: Inventory
         get() =

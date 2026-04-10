@@ -124,5 +124,16 @@
 "ui.effect.item.lore.7": "<white>Shift + Right click</white> <gray>to <b>subtract</b> one second</gray>"
 
 "inspector.title": "<red>Kit:</red> <gray>$0</gray>"
-"inspector.item.rename": "<gold>Rename kit</gold>"
-"inspector.item.edit": "<gold>Edit kit</gold>"
+"inspector.item.rename.name": "<gold>Rename kit</gold>"
+"inspector.item.rename.desc": "<gray>Click to rename this kit</gray>"
+"inspector.item.edit.name": "<gold>Edit kit</gold>"
+"inspector.item.edit.desc": "<gray>Click to edit this kit</gray>"
+"inspector.item.tryon.name": "<gold>Try kit on</gold>"
+"inspector.item.tryon.desc": "<gray>Click to try this kit on</gray>"
+"inspector.item.delete.name": "<red>Delete kit</red>"
+"inspector.item.delete.desc": "<gray><white>Shift + click</white> to delete this kit</gray>"
+"inspector.item.about.name": "<gold><b>About this kit:</b></gold>"
+"inspector.item.about.lore.1": "<gray>Created at:</gray> <white>$0</white>"
+"inspector.item.about.lore.2": "<gray>Created by:</gray> <white>$1</white>"
+
+"tryon.title.exit_notice": "<gold><b>Jump to exit kit preview</b></gold>"

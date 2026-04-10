@@ -36,7 +36,7 @@ class KitEditor(
     val onDone: (Kit) -> Unit,
     val onClose: () -> Unit
 ) : UI {
-    private val title = language.getCmp("editor.page.main.title", kit.name)
+    private val title = language.getCmp("editor.page.main.title", kit.metadata.name)
     private var currentSection = "weapons"
 
     val baseInventory: Inventory
@@ -57,7 +57,7 @@ class KitEditor(
                             return@guiItem
                         }
 
-                        kit = Kit(kit.name)
+                        kit = Kit(kit.metadata)
                         open()
                         player.stopAllSounds()
                         player.playSound(player.location, Sound.BLOCK_GRINDSTONE_USE, 5f, 1f)
@@ -192,7 +192,7 @@ class KitEditor(
         player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3f, 2f)
 
         // Prompt for name
-        KitEditorRename.open(player, kit) {
+        KitEditorRename.open(player, kit, {
             updateRegistry()
 
             // Close editor
@@ -203,7 +203,7 @@ class KitEditor(
 
             onDone(kit)
             onClose()
-        }
+        }, this)
 
         player.inventory.clear()
     }
@@ -259,6 +259,8 @@ class KitEditor(
 
         // Add inventory
         updateRegistry()
+
+        UIHandler.nonClosable[player.uniqueId] = this
     }
 
     /**
@@ -279,7 +281,6 @@ class KitEditor(
         currentSection = section ?: currentSection
         val inv = withItems(KitEditorItems.getItems(player, currentSection))
         open(inv)
-        UIHandler.nonClosable[player.uniqueId] = this
     }
 
     override fun open() { open(null) }
