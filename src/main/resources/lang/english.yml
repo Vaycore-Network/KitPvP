@@ -122,3 +122,7 @@
 "ui.effect.item.lore.5": "<gold>Current duration:</gold> <gray>$1 second(s)</gray>"
 "ui.effect.item.lore.6": "<white>Shift + Left click</white> <gray>to <b>add</b> one second</gray>"
 "ui.effect.item.lore.7": "<white>Shift + Right click</white> <gray>to <b>subtract</b> one second</gray>"
+
+"inspector.title": "<red>Kit:</red> <gray>$0</gray>"
+"inspector.item.rename": "<gold>Rename kit</gold>"
+"inspector.item.edit": "<gold>Edit kit</gold>"

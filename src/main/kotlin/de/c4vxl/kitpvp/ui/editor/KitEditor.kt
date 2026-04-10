@@ -6,8 +6,10 @@ import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.data.Kit
 import de.c4vxl.kitpvp.data.KitItem
 import de.c4vxl.kitpvp.handlers.KitEditorHandler
+import de.c4vxl.kitpvp.handlers.UIHandler
 import de.c4vxl.kitpvp.ui.editor.type.KitEditorItems
 import de.c4vxl.kitpvp.ui.general.AnvilUI
+import de.c4vxl.kitpvp.ui.type.UI
 import de.c4vxl.kitpvp.utils.Item
 import de.c4vxl.kitpvp.utils.Item.addMarginItems
 import de.c4vxl.kitpvp.utils.Item.guiItem
@@ -33,7 +35,7 @@ class KitEditor(
     val language: Language = player.language.child("kitpvp"),
     val onDone: (Kit) -> Unit,
     val onClose: () -> Unit
-) {
+) : UI {
     private val title = language.getCmp("editor.page.main.title", kit.name)
     private var currentSection = "weapons"
 
@@ -177,7 +179,7 @@ class KitEditor(
         }
 
         // Close editor
-        KitEditorHandler.nonClosable.remove(player.uniqueId)
+        UIHandler.nonClosable.remove(player.uniqueId)
         player.closeInventory()
         onClose()
 
@@ -190,27 +192,18 @@ class KitEditor(
         player.playSound(player.location, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3f, 2f)
 
         // Prompt for name
-        AnvilUI(
-            player,
-            "editor.page.rename.title",
-            "editor.page.rename.confirm",
-            {
-                kit.name = it.takeIf { it.isNotBlank() } ?: kit.name
-                updateRegistry()
+        KitEditorRename.open(player, kit) {
+            updateRegistry()
 
-                // Close editor
-                player.closeInventory()
-                player.inventory.clear()
+            // Close editor
+            player.closeInventory()
+            player.inventory.clear()
 
-                player.playSound(player.location, Sound.ENTITY_PLAYER_LEVELUP, 5f, 1f)
+            UIHandler.nonClosable.remove(player.uniqueId)
 
-                KitEditorHandler.nonClosable.remove(player.uniqueId)
-
-                onDone(kit)
-                onClose()
-            },
-            kit.name
-        )
+            onDone(kit)
+            onClose()
+        }
 
         player.inventory.clear()
     }
@@ -286,13 +279,15 @@ class KitEditor(
         currentSection = section ?: currentSection
         val inv = withItems(KitEditorItems.getItems(player, currentSection))
         open(inv)
-        KitEditorHandler.nonClosable[player.uniqueId] = this
+        UIHandler.nonClosable[player.uniqueId] = this
     }
+
+    override fun open() { open(null) }
 
     /**
      * Updates the opened editor ui inventory
      */
-    fun updateRegistry() {
+    private fun updateRegistry() {
         KitEditorHandler.openEditors[player.uniqueId] = this
     }
 

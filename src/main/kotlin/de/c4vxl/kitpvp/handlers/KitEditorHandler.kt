@@ -4,6 +4,7 @@ import de.c4vxl.gamelobby.lobby.Lobby.isInLobby
 import de.c4vxl.kitpvp.Main
 import de.c4vxl.kitpvp.data.KitItem
 import de.c4vxl.kitpvp.ui.editor.KitEditor
+import de.c4vxl.kitpvp.ui.inspect.KitInspector
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -23,7 +24,6 @@ import java.util.*
 class KitEditorHandler : Listener {
     companion object {
         val openEditors = mutableMapOf<UUID, KitEditor>()
-        val nonClosable = mutableMapOf<UUID, KitEditor>()
     }
     
     init {
@@ -33,20 +33,12 @@ class KitEditorHandler : Listener {
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
         openEditors.remove(event.player.uniqueId)
-        nonClosable.remove(event.player.uniqueId)
     }
 
     @EventHandler
     fun onInvClose(event: InventoryCloseEvent) {
         if (!(event.player as? Player ?: return).isInLobby)
             return
-
-        if (nonClosable.contains(event.player.uniqueId) && event.reason == InventoryCloseEvent.Reason.PLAYER) {
-            Bukkit.getScheduler().runTask(Main.instance, Runnable {
-                nonClosable[event.player.uniqueId]!!.open()
-            })
-            return
-        }
 
         if (!openEditors.contains(event.player.uniqueId))
             return

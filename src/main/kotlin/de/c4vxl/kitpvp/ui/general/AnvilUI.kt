@@ -3,6 +3,7 @@ package de.c4vxl.kitpvp.ui.general
 import de.c4vxl.gamemanager.language.Language
 import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.gamemanager.utils.ItemBuilder
+import de.c4vxl.kitpvp.ui.type.UI
 import de.c4vxl.kitpvp.utils.Item
 import de.c4vxl.kitpvp.utils.Item.guiItem
 import de.c4vxl.kitpvp.utils.Item.onDrop
@@ -22,7 +23,7 @@ open class AnvilUI(
     val onInput: (String) -> Unit,
     val placeholder: String? = null,
     private val language: Language = player.language.child("kitpvp")
-) {
+) : UI {
     val baseView: AnvilView
         get() = MenuType.ANVIL.builder()
             .checkReachable(false)
@@ -47,6 +48,10 @@ open class AnvilUI(
             }
 
     init {
+        open()
+    }
+
+    override fun open() {
         baseView.open()
     }
 }

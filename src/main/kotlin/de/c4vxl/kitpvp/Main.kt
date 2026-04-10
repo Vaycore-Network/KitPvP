@@ -4,6 +4,7 @@ import de.c4vxl.gamemanager.language.Language
 import de.c4vxl.gamemanager.utils.ResourceUtils
 import de.c4vxl.kitpvp.handlers.KitEditorHandler
 import de.c4vxl.kitpvp.handlers.LobbyHandler
+import de.c4vxl.kitpvp.handlers.UIHandler
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIPaperConfig
 import org.bukkit.Bukkit
@@ -51,6 +52,7 @@ class Main : JavaPlugin() {
             LobbyHandler()
 
         KitEditorHandler()
+        UIHandler()
 
         logger.info("[+] $name has been enabled!")
     }
