@@ -10,7 +10,8 @@ import java.util.*
  */
 data class StoredData(
     val uuid: String,
-    val kits: MutableList<Kit> = mutableListOf()
+    val kits: MutableList<Kit> = mutableListOf(),
+    val offsets: MutableMap<String, Map<Int, Int>> = mutableMapOf()
 ) {
     /**
      * Returns the player this data belongs to

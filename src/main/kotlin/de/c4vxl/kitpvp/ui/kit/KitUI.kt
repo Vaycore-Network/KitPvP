@@ -39,7 +39,7 @@ class KitUI(
                 // Add server kit items
                 ServerKits.kits.let { kits ->
                     repeat(14) { i ->
-                        addItem(kits.getOrNull(i)?.let { serverKitItem(it, i) }
+                        addItem(kits.getOrNull(i)?.let { serverKitItem(it) }
                             ?: Item.marginItem(Material.GRAY_STAINED_GLASS_PANE))
                     }
                 }
@@ -66,7 +66,7 @@ class KitUI(
                 }
             }
 
-    private fun serverKitItem(kit: ServerKit, idx: Int) =
+    private fun serverKitItem(kit: ServerKit) =
         ItemBuilder(
             kit.iconMaterial,
             language.getCmp("ui.kits.item.kit.name", kit.kit.metadata.name),
@@ -82,12 +82,18 @@ class KitUI(
                     KitLayout(
                         player,
                         kit.kit,
-                        { offsets ->
-                            kit.kit.equip(player, offsets)
-                            // TODO: Save kit preference
-                        }, mapOf(),this
+                        { updated ->
+                            Database.update(player) {
+                                this.offsets[kit.kit.metadata.name] = updated
+                            }
+                        },
+                        Database.get(player).offsets.getOrDefault(kit.kit.metadata.name, mapOf()),
+                        this
                     )
                 }
+
+                if (it.isLeftClick)
+                    onChoose(kit.kit)
             }
             .build()
 
