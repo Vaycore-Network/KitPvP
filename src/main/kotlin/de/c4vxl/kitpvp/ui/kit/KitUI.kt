@@ -82,9 +82,10 @@ class KitUI(
                     KitLayout(
                         player,
                         kit.kit,
-                        {
+                        { offsets ->
+                            kit.kit.equip(player, offsets)
                             // TODO: Save kit preference
-                        }, this
+                        }, mapOf(),this
                     )
                 }
             }

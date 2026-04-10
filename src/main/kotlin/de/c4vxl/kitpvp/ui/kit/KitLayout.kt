@@ -10,6 +10,7 @@ import de.c4vxl.kitpvp.handlers.UIHandler.Companion.immovable
 import de.c4vxl.kitpvp.ui.type.UI
 import de.c4vxl.kitpvp.utils.Item.addMarginItems
 import de.c4vxl.kitpvp.utils.Item.guiItem
+import de.c4vxl.kitpvp.utils.KitPreferenceUtils
 import net.kyori.adventure.text.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -21,7 +22,8 @@ import org.bukkit.inventory.ItemStack
 class KitLayout(
     val player: Player,
     val kit: Kit,
-    val onChoose: (Kit) -> Unit,
+    val onChoose: (Map<Int, Int>) -> Unit,
+    val offsets: Map<Int, Int> = mapOf(),
     val returnTo: UI? = null,
     val language: Language = player.language.child("kitpvp")
 ): UI {
@@ -36,18 +38,18 @@ class KitLayout(
                 // Save
                 setItem(0, ItemBuilder(Material.GREEN_STAINED_GLASS_PANE, language.getCmp("ui.layout.save"))
                     .guiItem {
-                        // Save changes
-                        for (i in 0..35) {
-                            val offset = if (i < 9) 45 else 0
-
-                            KitItem.fromItem(it.inventory.getItem(i + offset))?.let { item ->
-                                kit.inventory[i] = item
+                        val updated = buildMap {
+                            for (i in 0..35) {
+                                val offset = if (i < 9) 45 else 0
+                                put(i, KitItem.fromItem(it.inventory.getItem(i + offset)) ?: continue)
                             }
                         }
 
+                        val offsets = KitPreferenceUtils.calculateOffsets(kit.inventory, updated)
+
                         // Exit
                         returnTo?.open() ?: player.closeInventory()
-                        onChoose(kit)
+                        onChoose(offsets)
                     }
                     .build().immovable())
 
@@ -59,10 +61,11 @@ class KitLayout(
                 setItem(6, armorItem("offhand", kit.offhand, Material.ITEM_FRAME))
 
                 // Populate with items
+                val inventory = KitPreferenceUtils.applyOffsets(kit.inventory, offsets)
                 for (i in 0..35) {
                     val offset = if (i < 9) 45 else 0
 
-                    kit.inventory.getOrDefault(i, null)?.let { item ->
+                    inventory.getOrDefault(i, null)?.let { item ->
                         setItem(i + offset, item.builder.build())
                     }
                 }

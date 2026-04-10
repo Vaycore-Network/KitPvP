@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import de.c4vxl.kitpvp.data.struct.kit.item.KitItem
 import de.c4vxl.kitpvp.data.struct.kit.item.KitMetadata
 import de.c4vxl.kitpvp.data.struct.kit.rule.KitGameRules
+import de.c4vxl.kitpvp.utils.KitPreferenceUtils
 import net.minecraft.world.item.equipment.ArmorType
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
@@ -69,8 +70,9 @@ data class Kit(
     /**
      * Equips a player with the kit
      * @param player The player to equip
+     * @param offsets The player specific item slot mapping to apply to the kit
      */
-    fun equip(player: Player) {
+    fun equip(player: Player, offsets: Map<Int, Int> = mapOf()) {
         fun item(item: KitItem?) = item?.builder?.build()
 
         player.inventory.clear()
@@ -80,7 +82,8 @@ data class Kit(
         player.inventory.leggings = item(leggings)
         player.inventory.boots = item(boots)
         player.inventory.setItemInOffHand(item(offhand))
-        inventory.forEach { (slot, item) -> player.inventory.setItem(slot, item(item)) }
+
+        KitPreferenceUtils.applyOffsets(inventory, offsets).forEach { (slot, item) -> player.inventory.setItem(slot, item(item)) }
     }
 
     companion object {
