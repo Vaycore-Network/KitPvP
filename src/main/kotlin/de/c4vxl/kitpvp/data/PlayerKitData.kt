@@ -12,7 +12,7 @@ object PlayerKitData {
     /**
      * Returns all kits a player owns
      */
-    fun getKits(player: Player) =
+    fun getKits(player: Player, addExtra: Boolean) =
         buildList {
             val numKits = Main.config.getInt("config.kits.num-kits", 6)
 
@@ -20,10 +20,17 @@ object PlayerKitData {
             addAll(Database.get(player).kits.take(numKits))
 
             // Add one extra kit if enough space
-            if (size < numKits)
+            if (size < numKits && addExtra)
                 add(Kit.new(
                     player.language.child("kitpvp").get("kit.name.untitled"),
                     player
                 ))
         }
+
+    /**
+     * Returns the amount of kits a player has
+     * @param player The player
+     */
+    fun getNumKits(player: Player) =
+        Database.get(player).kits.size
 }

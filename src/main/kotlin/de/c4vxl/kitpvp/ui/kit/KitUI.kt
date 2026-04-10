@@ -23,6 +23,7 @@ import org.bukkit.inventory.Inventory
 class KitUI(
     val player: Player,
     val onChoose: (Kit) -> Unit,
+    private val allowEdits: Boolean = true,
     val language: Language = player.language.child("kitpvp")
 ): UI {
     private val baseInventory: Inventory
@@ -47,11 +48,21 @@ class KitUI(
                 addMarginItems(27..35, material = Material.LIGHT_BLUE_STAINED_GLASS_PANE, name = language.get("ui.kits.item.your_kits.name"))
 
                 // Add custom kit items
-                PlayerKitData.getKits(player).let { kits ->
+                PlayerKitData.getKits(player, allowEdits).let { kits ->
                     repeat(14) { i ->
                         addItem(kits.getOrNull(i)?.let { customKitItem(it, i) }
                             ?: Item.marginItem(Material.GRAY_STAINED_GLASS_PANE))
                     }
+
+                    if (kits.isEmpty() && !allowEdits)
+                        setItem(37, ItemBuilder(
+                            Material.RED_STAINED_GLASS_PANE,
+                            language.getCmp("ui.kits.item.notice.no_kits.0"),
+                            lore = mutableListOf(
+                                language.getCmp("ui.kits.item.notice.no_kits.1") as TextComponent,
+                                language.getCmp("ui.kits.item.notice.no_kits.2") as TextComponent
+                            )
+                        ).guiItem().build())
                 }
             }
 
@@ -59,13 +70,17 @@ class KitUI(
         ItemBuilder(
             kit.iconMaterial,
             language.getCmp("ui.kits.item.kit.name", kit.kit.metadata.name),
-            lore = mutableListOf(
-                language.getCmp("ui.kits.item.kit.lore.4") as TextComponent,
-                language.getCmp("ui.kits.item.kit.lore.5") as TextComponent
-            )
+            lore = buildList {
+                add(language.getCmp("ui.kits.item.kit.lore.4") as TextComponent)
+                if (allowEdits) add(language.getCmp("ui.kits.item.kit.lore.5") as TextComponent)
+            }.toMutableList()
         )
             .guiItem {
+                if (it.isRightClick) {
+                    if (!allowEdits) return@guiItem
 
+                    // TODO: Open editor here
+                }
             }
             .build()
 
@@ -76,17 +91,23 @@ class KitUI(
             language.getCmp("ui.kits.item.kit.name", kit.metadata.name),
             lore = buildList {
                 val start = if (kit.isEmpty) 4 else 0
-                for (i in start..4)
+                for (i in start..4) {
+                    if (!allowEdits && i == 4)
+                        continue
+
                     add(language.getCmp("ui.kits.item.kit.lore.${i + 1}", kit.metadata.createdAt, kit.metadata.lastEdit) as TextComponent)
+                }
             }.toMutableList()
         )
             .guiItem {
                 if (it.isRightClick) {
+                    if (!allowEdits) return@guiItem
                     KitInspector(player, kit, onUpdate = { updated ->
                         Database.update(player) {
-                            if (updated == null)
-                                kits.removeAt(idx)
-                            else {
+                            if (updated == null) {
+                                if (kits.size > idx)
+                                    kits.removeAt(idx)
+                            } else {
                                 if (kits.size <= idx)
                                     kits.add(kit)
                                 else

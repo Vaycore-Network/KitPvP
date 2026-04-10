@@ -145,5 +145,8 @@
 "ui.kits.item.kit.lore.5": "<gray><white>Right click</white> to edit</gray>"
 "ui.kits.item.your_kits.name": "<gold>Your kits ↓</gold>"
 "ui.kits.item.general_kits.name": "<gold>Global kits ↓</gold>"
+"ui.kits.item.notice.no_kits.0": "<red>No kits found!</red>"
+"ui.kits.item.notice.no_kits.1": "<gray>It looks like you haven't created a kit of your own yet!</gray>"
+"ui.kits.item.notice.no_kits.2": "<gray>Once you create one, it will show up here.</gray>"
 
 "kit.name.untitled": "Untitled Kit"
