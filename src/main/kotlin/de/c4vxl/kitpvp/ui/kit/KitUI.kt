@@ -85,9 +85,13 @@ class KitUI(
                     KitInspector(player, kit, onUpdate = { updated ->
                         Database.update(player) {
                             if (updated == null)
-                                kits.remove(idx)
-                            else
-                                kits[idx] = updated
+                                kits.removeAt(idx)
+                            else {
+                                if (kits.size <= idx)
+                                    kits.add(kit)
+                                else
+                                    kits[idx] = updated
+                            }
                         }
 
                         open()

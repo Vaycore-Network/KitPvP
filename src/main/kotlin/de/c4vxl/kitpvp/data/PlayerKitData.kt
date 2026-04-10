@@ -14,15 +14,16 @@ object PlayerKitData {
      */
     fun getKits(player: Player) =
         buildList {
-            val kits = Database.get(player).kits
             val numKits = Main.config.getInt("config.kits.num-kits", 6)
-            for (i in 0..<numKits)
-                add(
-                    kits[i] ?:
-                    Kit.new(
-                        player.language.child("kitpvp").get("kit.name.untitled", (i - kits.size + 1).toString()),
-                        player
-                    )
-                )
+
+            // Add first n kits
+            addAll(Database.get(player).kits.take(numKits))
+
+            // Add one extra kit if enough space
+            if (size < numKits)
+                add(Kit.new(
+                    player.language.child("kitpvp").get("kit.name.untitled"),
+                    player
+                ))
         }
 }
