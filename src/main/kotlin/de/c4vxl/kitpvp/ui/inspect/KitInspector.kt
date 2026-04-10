@@ -31,15 +31,16 @@ class KitInspector(
                 addMarginItems(0..17, 27..44, 18..18, 26..26)
                 addMarginItems(11..15, 29..33, 10..28 step 9, 16..34 step 9, material = Material.LIME_STAINED_GLASS_PANE)
 
-                setItem(8, ItemBuilder(
+                setItem(16, ItemBuilder(
                     Material.ITEM_FRAME,
                     language.getCmp("inspector.item.about.name"),
                     lore = buildList {
-                        repeat(2) { i ->
+                        repeat(3) { i ->
                             add(language.getCmp(
                                 "inspector.item.about.lore.${i + 1}",
                                 kit.metadata.createdAt,
-                                kit.metadata.creatorPlayer.name ?: "/"
+                                kit.metadata.creatorPlayer.name ?: "/",
+                                kit.metadata.lastEdit
                             ) as TextComponent)
                         }
                     }.toMutableList()

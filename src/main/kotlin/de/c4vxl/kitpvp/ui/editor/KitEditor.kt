@@ -14,6 +14,7 @@ import de.c4vxl.kitpvp.utils.Item
 import de.c4vxl.kitpvp.utils.Item.addMarginItems
 import de.c4vxl.kitpvp.utils.Item.guiItem
 import de.c4vxl.kitpvp.utils.Item.onDrop
+import de.c4vxl.kitpvp.utils.TimeUtils
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -201,6 +202,7 @@ class KitEditor(
 
             UIHandler.nonClosable.remove(player.uniqueId)
 
+            kit.metadata.lastEdit = TimeUtils.now
             onDone(kit)
             onClose()
         }, this)

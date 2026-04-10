@@ -133,7 +133,9 @@
 "inspector.item.delete.name": "<red>Delete kit</red>"
 "inspector.item.delete.desc": "<gray><white>Shift + click</white> to delete this kit</gray>"
 "inspector.item.about.name": "<gold><b>About this kit:</b></gold>"
-"inspector.item.about.lore.1": "<gray>Created at:</gray> <white>$0</white>"
-"inspector.item.about.lore.2": "<gray>Created by:</gray> <white>$1</white>"
+"inspector.item.about.lore.1": "<gray>Created by:</gray> <white>$1</white>"
+"inspector.item.about.lore.2": "<gray>Created at:</gray> <white>$0</white>"
+"inspector.item.about.lore.3": "<gray>Last edited:</gray> <white>$2</white>"
+
 
 "tryon.title.exit_notice": "<gold><b>Jump to exit kit preview</b></gold>"
