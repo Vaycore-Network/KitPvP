@@ -5,7 +5,9 @@ import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.data.Database
 import de.c4vxl.kitpvp.data.PlayerKitData
+import de.c4vxl.kitpvp.data.ServerKits
 import de.c4vxl.kitpvp.data.struct.kit.Kit
+import de.c4vxl.kitpvp.data.struct.kit.ServerKit
 import de.c4vxl.kitpvp.ui.inspect.KitInspector
 import de.c4vxl.kitpvp.ui.type.UI
 import de.c4vxl.kitpvp.utils.Item
@@ -34,8 +36,12 @@ class KitUI(
                 addMarginItems(0..8, material = Material.PINK_STAINED_GLASS_PANE, name = language.get("ui.kits.item.general_kits.name"))
 
                 // Add server kit items
-                // TODO: Implement server kits and add here
-                addMarginItems(9..26, material = Material.BARRIER)
+                ServerKits.kits.let { kits ->
+                    repeat(14) { i ->
+                        addItem(kits.getOrNull(i)?.let { serverKitItem(it, i) }
+                            ?: Item.marginItem(Material.GRAY_STAINED_GLASS_PANE))
+                    }
+                }
 
                 // Custom kits
                 addMarginItems(27..35, material = Material.LIGHT_BLUE_STAINED_GLASS_PANE, name = language.get("ui.kits.item.your_kits.name"))
@@ -49,13 +55,23 @@ class KitUI(
                 }
             }
 
+    private fun serverKitItem(kit: ServerKit, idx: Int) =
+        ItemBuilder(
+            kit.iconMaterial,
+            language.getCmp("ui.kits.item.kit.name", kit.kit.metadata.name)
+        )
+            .guiItem {
+
+            }
+            .build()
+
     private fun customKitItem(kit: Kit, idx: Int) =
         ItemBuilder(
             if (kit.isEmpty) Material.WRITABLE_BOOK
             else Material.BOOK,
             language.getCmp("ui.kits.item.kit.name", kit.metadata.name),
             lore = buildList {
-                val start = if (kit.isEmpty) 3 else 0
+                val start = if (kit.isEmpty) 4 else 0
                 for (i in start..4)
                     add(language.getCmp("ui.kits.item.kit.lore.${i + 1}", kit.metadata.createdAt, kit.metadata.lastEdit) as TextComponent)
             }.toMutableList()
@@ -72,7 +88,7 @@ class KitUI(
 
                         open()
                     }, returnTo = this@KitUI)
-                } else if (it.isLeftClick) {
+                } else if (it.isLeftClick && !kit.isEmpty) {
                     println("Choose kit: " + kit.metadata.name)
                 }
             }

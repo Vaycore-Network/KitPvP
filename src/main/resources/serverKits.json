@@ -1,0 +1,76 @@
+[
+  {
+    "icon": "DIAMOND_SWORD",
+    "kit": {
+      "metadata": {
+        "name": "Only Sword",
+        "createdBy": "",
+        "createdAt": "",
+        "lastEdit": ""
+      },
+      "inventory": {
+        "0": {
+          "material": "DIAMOND_SWORD",
+          "amount": 1,
+          "unbreakable": true,
+          "enchantments": {
+            "DAMAGE_ALL": 1
+          },
+          "effects": {}
+        },
+        "8": {
+          "material": "TOTEM_OF_UNDYING",
+          "amount": 1,
+          "unbreakable": false,
+          "enchantments": {},
+          "effects": {}
+        }
+      },
+      "helmet": {
+        "material": "DIAMOND_HELMET",
+        "amount": 1,
+        "unbreakable": false,
+        "enchantments": {},
+        "effects": {}
+      },
+      "chestplate": {
+        "material": "DIAMOND_CHESTPLATE",
+        "amount": 1,
+        "unbreakable": false,
+        "enchantments": {},
+        "effects": {}
+      },
+      "leggings": {
+        "material": "DIAMOND_LEGGINGS",
+        "amount": 1,
+        "unbreakable": false,
+        "enchantments": {},
+        "effects": {}
+      },
+      "boots": {
+        "material": "DIAMOND_BOOTS",
+        "amount": 1,
+        "unbreakable": false,
+        "enchantments": {},
+        "effects": {}
+      },
+      "offhand": {
+        "material": "GOLDEN_APPLE",
+        "amount": 10,
+        "unbreakable": false,
+        "enchantments": {},
+        "effects": {}
+      },
+      "rules": {
+        "isAlwaysDay": true,
+        "isKeepInventory": true,
+        "isFallDamage": true,
+        "isItemDrop": true,
+        "isAllowBlockBreaking": true,
+        "numRounds": 3,
+        "health": 20.0,
+        "activeEffects": {}
+      }
+    }
+  }
+]

@@ -62,7 +62,7 @@ class KitInspector(
                         onUpdate(it)
                         kit = it
                     }, onClose = {
-                        open()
+                        (returnTo ?: this@KitInspector).open()
                     })
                 })
 
