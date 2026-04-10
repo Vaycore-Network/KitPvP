@@ -1,21 +1,21 @@
 package de.c4vxl.kitpvp.handlers
 
 import de.c4vxl.gamelobby.events.lobby.LobbyPlayerEquipEvent
+import de.c4vxl.gamelobby.lobby.Lobby
 import de.c4vxl.gamelobby.lobby.Lobby.isInLobby
 import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.Main
-import de.c4vxl.kitpvp.data.struct.kit.Kit
-import de.c4vxl.kitpvp.ui.inspect.KitInspector
 import de.c4vxl.kitpvp.ui.kit.KitUI
 import de.c4vxl.kitpvp.utils.Item.enchantmentGlow
 import de.c4vxl.kitpvp.utils.Item.onRightClick
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import java.io.File
+import org.bukkit.event.inventory.InventoryCloseEvent
 
 /**
  * Intercepts the GameLobby plugin and adds KitPvP-specific logic
@@ -46,5 +46,25 @@ class LobbyHandler : Listener {
             .build()
             .enchantmentGlow()
         )
+    }
+
+    @EventHandler
+    fun onUIClose(event: InventoryCloseEvent) {
+        val player = event.player as? Player ?: return
+        if (!player.isInLobby) return
+
+        // Only if inventory is actually being closed
+        if (event.reason == InventoryCloseEvent.Reason.OPEN_NEW)
+            return
+
+        // Return if non-closable
+        if (UIHandler.nonClosable.contains(event.player.uniqueId))
+            return
+
+        // Equip lobby items
+        event.player.location.let {
+            Lobby.send(player)
+            player.teleport(it)
+        }
     }
 }
