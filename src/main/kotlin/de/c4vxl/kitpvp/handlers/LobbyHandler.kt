@@ -50,7 +50,7 @@ class LobbyHandler : Listener {
                 if (!event.player.isInLobby)
                     return@onRightClick
 
-                KitUI(event.player, { kit -> TryOn.open(event.player, kit) }, true)
+                KitUI(event.player, KitUI.Mode.EDIT, { kit -> TryOn.open(event.player, kit) })
             }
             .build()
             .enchantmentGlow()

@@ -23,11 +23,16 @@ import org.bukkit.inventory.Inventory
 
 class KitUI(
     val player: Player,
-    val onChoose: (Kit) -> Unit,
-    private val allowEdits: Boolean = true,
+    private val mode: Mode = Mode.CHOOSE,
+    val onChoose: ((Kit) -> Unit)? = null,
     val language: Language = player.language.child("kitpvp")
 ): UI {
     private var currentPage = Page.SERVER_KITS
+
+    enum class Mode {
+        EDIT,
+        CHOOSE
+    }
 
     private val baseInventory: Inventory get() =
         Bukkit.createInventory(null, 9 * 5, language.getCmp("ui.kits.title.${currentPage.name.lowercase()}"))
@@ -54,6 +59,7 @@ class KitUI(
                 when (currentPage) {
                     // Add custom kits
                     Page.CUSTOM_KITS -> {
+                        val allowEdits = mode == Mode.EDIT
                         PlayerKitData.getKits(player, allowEdits).let { kits ->
                             repeat(14) { i ->
                                 addItem(kits.getOrNull(i)?.let { customKitItem(it, i) }
@@ -93,16 +99,12 @@ class KitUI(
         ItemBuilder(
             kit.iconMaterial,
             language.getCmp("ui.kits.item.kit.name", kit.kit.metadata.name),
-            lore = buildList {
-                add(language.getCmp("ui.kits.item.kit.lore.4") as TextComponent)
-                if (allowEdits) add(language.getCmp("ui.kits.item.kit.lore.5") as TextComponent)
-            }.toMutableList()
+            lore = mutableListOf(language.getCmp("ui.kits.item.kit.lore.${mode.name.lowercase()}") as TextComponent)
         )
             .guiItem {
-                if (it.isRightClick) {
-                    if (!allowEdits) return@guiItem
-
-                    KitLayout(
+                when (mode) {
+                    Mode.CHOOSE -> onChoose?.invoke(kit.kit)
+                    Mode.EDIT -> KitLayout(
                         player,
                         kit.kit,
                         { updated ->
@@ -114,9 +116,6 @@ class KitUI(
                         this
                     )
                 }
-
-                if (it.isLeftClick)
-                    onChoose(kit.kit)
             }
             .build()
 
@@ -126,19 +125,17 @@ class KitUI(
             else Material.BOOK,
             language.getCmp("ui.kits.item.kit.name", kit.metadata.name),
             lore = buildList {
-                val start = if (kit.isEmpty) 4 else 0
-                for (i in start..4) {
-                    if (!allowEdits && i == 4)
-                        continue
-
+                val start = if (kit.isEmpty) 3 else 0
+                for (i in start..2) {
                     add(language.getCmp("ui.kits.item.kit.lore.${i + 1}", kit.metadata.createdAt, kit.metadata.lastEdit) as TextComponent)
                 }
+                add(language.getCmp("ui.kits.item.kit.lore.${mode.name.lowercase()}") as TextComponent)
             }.toMutableList()
         )
             .guiItem {
-                if (it.isRightClick) {
-                    if (!allowEdits) return@guiItem
-                    KitInspector(player, kit, onUpdate = { updated ->
+                when (mode) {
+                    Mode.CHOOSE -> onChoose?.invoke(kit)
+                    Mode.EDIT -> KitInspector(player, kit, onUpdate = { updated ->
                         Database.update(player) {
                             if (updated == null) {
                                 if (kits.size > idx)
@@ -153,8 +150,6 @@ class KitUI(
 
                         open()
                     }, returnTo = this@KitUI)
-                } else if (it.isLeftClick && !kit.isEmpty) {
-                    onChoose(kit)
                 }
             }
             .build()

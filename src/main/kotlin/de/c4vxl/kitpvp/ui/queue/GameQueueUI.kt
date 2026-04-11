@@ -65,11 +65,11 @@ class GameQueueUI(
                     setItem(12, ItemBuilder(Material.BOOKSHELF, language.getCmp("ui.queue.item.host.name"),
                         lore = mutableListOf(language.getCmp("ui.queue.item.host.lore.1") as TextComponent))
                         .guiItem {
-                            KitUI(player, { kit ->
+                            KitUI(player, KitUI.Mode.CHOOSE, { kit ->
                                 val game = Queuing.getGame(this@GameQueueUI.size, kit) ?: return@KitUI
                                 player.closeInventory()
                                 player.gma.join(game)
-                            }, false)
+                            })
                         }
                         .build())
 
