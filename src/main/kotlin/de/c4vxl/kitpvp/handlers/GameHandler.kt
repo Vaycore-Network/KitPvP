@@ -8,6 +8,7 @@ import de.c4vxl.kitpvp.data.extensions.Extensions.data
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
 import org.bukkit.Bukkit
 import org.bukkit.GameRules
+import org.bukkit.attribute.Attribute
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
@@ -52,5 +53,9 @@ class GameHandler : Listener {
         // Equip player
         kit.equip(player, event.game.kitData.getPlayerOffsets(player))
         kit.rules.giveEffects(player)
+
+        // Set max health
+        player.maxHealth = kit.rules.health
+        player.health = player.maxHealth
     }
 }

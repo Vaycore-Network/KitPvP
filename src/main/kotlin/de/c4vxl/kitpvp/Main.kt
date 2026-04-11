@@ -59,6 +59,7 @@ class Main : JavaPlugin() {
         TryOnHandler()
         QueueHandler()
         GameHandler()
+        KitRulesHandler()
 
         logger.info("[+] $name has been enabled!")
     }
