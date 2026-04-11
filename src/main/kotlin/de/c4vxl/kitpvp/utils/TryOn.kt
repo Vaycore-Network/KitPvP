@@ -4,6 +4,7 @@ import de.c4vxl.gamelobby.Main
 import de.c4vxl.gamemanager.gma.GMA
 import de.c4vxl.gamemanager.gma.player.GMAPlayer.Companion.gma
 import de.c4vxl.gamemanager.language.Language.Companion.language
+import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
 import de.c4vxl.kitpvp.data.struct.kit.Kit
 import org.bukkit.Bukkit
 import org.bukkit.Sound
@@ -27,6 +28,7 @@ object TryOn {
         // Send player into a queuing game
         // We do this to hide him from other players
         val game = GMA.createGame(1, 1, player.gma)
+        game.kitData.isTryOn = true
         player.gma.join(game)
 
         // Prepare player

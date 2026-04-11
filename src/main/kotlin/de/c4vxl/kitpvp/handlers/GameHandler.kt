@@ -41,6 +41,10 @@ class GameHandler : Listener {
         val kit = event.game.kitData.kit
         val lastKit = event.player.bukkitPlayer.lastKit
 
+        // We don't care about games used for TryOn
+        if (event.game.kitData.isTryOn)
+            return
+
         // Game doesn't have a kit
         // Try to force the players last kit
         if (kit == null && lastKit != null) {
