@@ -3,10 +3,7 @@ package de.c4vxl.kitpvp.handlers
 import de.c4vxl.gamemanager.gma.event.game.GameStartEvent
 import de.c4vxl.gamemanager.gma.event.game.GameStopEvent
 import de.c4vxl.gamemanager.gma.event.game.GameWorldLoadedEvent
-import de.c4vxl.gamemanager.gma.event.player.GamePlayerEquipEvent
-import de.c4vxl.gamemanager.gma.event.player.GamePlayerLooseEvent
-import de.c4vxl.gamemanager.gma.event.player.GamePlayerRespawnEvent
-import de.c4vxl.gamemanager.gma.event.player.GamePlayerWinEvent
+import de.c4vxl.gamemanager.gma.event.player.*
 import de.c4vxl.gamemanager.gma.game.Game
 import de.c4vxl.gamemanager.gma.player.GMAPlayer.Companion.gma
 import de.c4vxl.gamemanager.gma.team.Team
@@ -144,7 +141,7 @@ class GameHandler : Listener {
 
             // Call win/loose events
             winnerTeams.forEach { it.players.forEach { player -> GamePlayerWinEvent(player, game).callEvent() } }
-            otherTeams.forEach { it.players.forEach { player -> GamePlayerLooseEvent(player, game).callEvent() } }
+            otherTeams.forEach { it.players.forEach { player -> GamePlayerLoseEvent(player, game).callEvent() } }
         }
 
         game.stop()
