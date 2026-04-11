@@ -136,20 +136,22 @@
 
 "tryon.title.exit_notice": "<gold><b>Jump to exit kit preview</b></gold>"
 
-"ui.kits.title": "<red>Kits</red>"
+"ui.kits.title.general": "<red>Kits</red>"
+"ui.kits.title.server_kits": "${ui.kits.title.general} <grey>| Server kits</grey>"
+"ui.kits.title.custom_kits": "${ui.kits.title.general} <grey>| Your kits</grey>"
 "ui.kits.item.kit.name": "<gold>$0</gold>"
 "ui.kits.item.kit.lore.1": "<gray>Created at:</gray> <white>$0</white>"
 "ui.kits.item.kit.lore.2": "<gray>Last edited:</gray> <white>$1</white>"
 "ui.kits.item.kit.lore.3": ""
 "ui.kits.item.kit.lore.4": "<gray><white>Left click</white> to select</gray>"
 "ui.kits.item.kit.lore.5": "<gray><white>Right click</white> to edit</gray>"
-"ui.kits.item.your_kits.name": "<gold>Your kits ↓</gold>"
-"ui.kits.item.general_kits.name": "<gold>Global kits ↓</gold>"
+"ui.kits.item.your_kits.name": "<gold>Your kits →</gold>"
+"ui.kits.item.general_kits.name": "<gold>Global kits →</gold>"
 "ui.kits.item.notice.no_kits.0": "<red>No kits found!</red>"
 "ui.kits.item.notice.no_kits.1": "<gray>It looks like you haven't created a kit of your own yet!</gray>"
 "ui.kits.item.notice.no_kits.2": "<gray>Once you create one, it will show up here.</gray>"
 
-"kit.name.untitled": "Untitled Kit"
+"kit.name.untitled": "New Kit"
 
 "ui.layout.title": "<red>Customize kit layout</red>"
 "ui.layout.save": "<green>Save and exit layout editor</green>"

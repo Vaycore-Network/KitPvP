@@ -12,6 +12,7 @@ import de.c4vxl.kitpvp.ui.inspect.KitInspector
 import de.c4vxl.kitpvp.ui.type.UI
 import de.c4vxl.kitpvp.utils.Item
 import de.c4vxl.kitpvp.utils.Item.addMarginItems
+import de.c4vxl.kitpvp.utils.Item.enchantmentGlow
 import de.c4vxl.kitpvp.utils.Item.guiItem
 import net.kyori.adventure.text.TextComponent
 import org.bukkit.Bukkit
@@ -26,45 +27,67 @@ class KitUI(
     private val allowEdits: Boolean = true,
     val language: Language = player.language.child("kitpvp")
 ): UI {
-    private val baseInventory: Inventory
-        get() =
-        Bukkit.createInventory(null, 9 * 6, language.getCmp("ui.kits.title"))
+    private var currentPage = Page.SERVER_KITS
+
+    private val baseInventory: Inventory get() =
+        Bukkit.createInventory(null, 9 * 5, language.getCmp("ui.kits.title.${currentPage.name.lowercase()}"))
             .apply {
-                // Sides
-                addMarginItems(0..45 step 9, 8..53 step 9)
+                // Margin items
+                addMarginItems(0..17, 36..44, 0..36 step 9, 8..44 step 9)
 
-                // Server kits
-                addMarginItems(0..8, material = Material.PINK_STAINED_GLASS_PANE, name = language.get("ui.kits.item.general_kits.name"))
+                // Tab items
+                setItem(3, ItemBuilder(
+                    Material.DIAMOND_SWORD,
+                    language.getCmp("ui.kits.item.general_kits.name")
+                )
+                    .guiItem { open(Page.SERVER_KITS) }
+                    .build().let { if (currentPage == Page.SERVER_KITS) it.enchantmentGlow() else it })
 
-                // Add server kit items
-                ServerKits.kits.let { kits ->
-                    repeat(14) { i ->
-                        addItem(kits.getOrNull(i)?.let { serverKitItem(it) }
-                            ?: Item.marginItem(Material.GRAY_STAINED_GLASS_PANE))
+                setItem(5, ItemBuilder(
+                    Material.NETHER_STAR,
+                    language.getCmp("ui.kits.item.your_kits.name")
+                )
+                    .guiItem { open(Page.CUSTOM_KITS) }
+                    .build().let { if (currentPage == Page.CUSTOM_KITS) it.enchantmentGlow() else it })
+
+
+                when (currentPage) {
+                    // Add custom kits
+                    Page.CUSTOM_KITS -> {
+                        PlayerKitData.getKits(player, allowEdits).let { kits ->
+                            repeat(14) { i ->
+                                addItem(kits.getOrNull(i)?.let { customKitItem(it, i) }
+                                    ?: Item.marginItem(Material.GRAY_STAINED_GLASS_PANE))
+                            }
+
+                            if (kits.isEmpty() && !allowEdits)
+                                setItem(37, ItemBuilder(
+                                    Material.RED_STAINED_GLASS_PANE,
+                                    language.getCmp("ui.kits.item.notice.no_kits.0"),
+                                    lore = mutableListOf(
+                                        language.getCmp("ui.kits.item.notice.no_kits.1") as TextComponent,
+                                        language.getCmp("ui.kits.item.notice.no_kits.2") as TextComponent
+                                    )
+                                ).guiItem().build())
+                        }
                     }
-                }
 
-                // Custom kits
-                addMarginItems(27..35, material = Material.LIGHT_BLUE_STAINED_GLASS_PANE, name = language.get("ui.kits.item.your_kits.name"))
-
-                // Add custom kit items
-                PlayerKitData.getKits(player, allowEdits).let { kits ->
-                    repeat(14) { i ->
-                        addItem(kits.getOrNull(i)?.let { customKitItem(it, i) }
-                            ?: Item.marginItem(Material.GRAY_STAINED_GLASS_PANE))
+                    // Add server kits
+                    Page.SERVER_KITS -> {
+                        ServerKits.kits.let { kits ->
+                            repeat(14) { i ->
+                                addItem(kits.getOrNull(i)?.let { serverKitItem(it) }
+                                    ?: Item.marginItem(Material.GRAY_STAINED_GLASS_PANE))
+                            }
+                        }
                     }
-
-                    if (kits.isEmpty() && !allowEdits)
-                        setItem(37, ItemBuilder(
-                            Material.RED_STAINED_GLASS_PANE,
-                            language.getCmp("ui.kits.item.notice.no_kits.0"),
-                            lore = mutableListOf(
-                                language.getCmp("ui.kits.item.notice.no_kits.1") as TextComponent,
-                                language.getCmp("ui.kits.item.notice.no_kits.2") as TextComponent
-                            )
-                        ).guiItem().build())
                 }
             }
+
+    enum class Page {
+        SERVER_KITS,
+        CUSTOM_KITS
+    }
 
     private fun serverKitItem(kit: ServerKit) =
         ItemBuilder(
@@ -140,9 +163,14 @@ class KitUI(
         open()
     }
 
-    override fun open() {
+    private fun open(page: Page) {
+        this.currentPage = page
         player.playSound(player.location, Sound.BLOCK_SCAFFOLDING_BREAK, 5f, 0.5f)
         player.openInventory(baseInventory)
         player.inventory.clear()
+    }
+
+    override fun open() {
+        open(currentPage)
     }
 }
