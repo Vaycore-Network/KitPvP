@@ -3,21 +3,19 @@ package de.c4vxl.kitpvp.handlers
 import de.c4vxl.gamelobby.events.lobby.LobbyPlayerEquipEvent
 import de.c4vxl.gamelobby.lobby.Lobby
 import de.c4vxl.gamelobby.lobby.Lobby.isInLobby
-import de.c4vxl.gamemanager.gma.GMA
 import de.c4vxl.gamemanager.gma.event.player.GamePlayerJoinedEvent
 import de.c4vxl.gamemanager.gma.event.player.GamePlayerQuitEvent
-import de.c4vxl.gamemanager.gma.game.type.GameSize
 import de.c4vxl.gamemanager.gma.player.GMAPlayer.Companion.gma
 import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.Main
-import de.c4vxl.kitpvp.data.extensions.Extensions
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
 import de.c4vxl.kitpvp.data.extensions.Extensions.lastKit
-import de.c4vxl.kitpvp.queuing.Queuing
 import de.c4vxl.kitpvp.ui.kit.KitUI
+import de.c4vxl.kitpvp.ui.queue.GameQueueUI
 import de.c4vxl.kitpvp.utils.Item.enchantmentGlow
 import de.c4vxl.kitpvp.utils.Item.onRightClick
+import de.c4vxl.kitpvp.utils.TryOn
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
@@ -41,24 +39,34 @@ class LobbyHandler : Listener {
         val inv = event.player.inventory
         val lang = event.player.language.child("kitpvp")
 
-        inv.setItem(4, ItemBuilder(
+        inv.clear()
+
+        inv.setItem(7, ItemBuilder(
             Material.BOOK,
-            lang.getCmp("lobby.item.kit_editor"),
+            lang.getCmp("lobby.item.kit_editor.name"),
             enchantments = mutableMapOf(Enchantment.UNBREAKING to 1)
         )
             .onRightClick {
                 if (!event.player.isInLobby)
                     return@onRightClick
 
-                KitUI(event.player, { kit ->
-                    val game = Queuing.getGame(GameSize(2, 1), kit) ?: return@KitUI
-                    event.player.closeInventory()
-                    event.player.gma.join(game)
-                }, true)
+                KitUI(event.player, { kit -> TryOn.open(event.player, kit) }, true)
             }
             .build()
             .enchantmentGlow()
         )
+
+        inv.setItem(1, ItemBuilder(
+            Material.IRON_SWORD,
+            lang.getCmp("lobby.item.queue.name")
+        )
+            .onRightClick {
+                if (!event.player.isInLobby)
+                    return@onRightClick
+
+                GameQueueUI(event.player)
+            }
+            .build())
     }
 
     @EventHandler

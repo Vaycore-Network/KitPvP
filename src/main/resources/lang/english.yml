@@ -1,7 +1,9 @@
 "prefix": "<gray>[</gray><red>KitPvP</red><gray>]</gray>"
 
 
-"lobby.item.kit_editor": "<gold><b>Kit Editor</b></gold> <gray>| Right Click</gray>"
+"lobby.item.kit_editor.name": "<gold><b>Kit Editor</b></gold> <gray>| Right Click</gray>"
+"lobby.item.queue.name": "<gold><b>Queue Duel</b></gold> <gray>| Right click</gray>"
+
 "editor.title": "<red>Kit Editor</red>"
 "editor.page.main.title": "${editor.title} <gray>($0)</gray>"
 "editor.page.search.title": "<blue>Search for item</blue>"
@@ -181,9 +183,22 @@
 
 "ui.layout.notice.immovable": "<gray>This item cannot be moved</gray>"
 
+"ui.queue.title": "<red>Queue a game</red>"
+"ui.queue.item.host.name": "<gold><b>Host a kit</b></gold>"
+"ui.queue.item.host.lore.1": "<gray>Create a game with your own kit</gray>"
+"ui.queue.item.join.name": "<gold><b>Join a kit</b></gold>"
+"ui.queue.item.join.lore.1": "<gray>Join a game playing another players kit</gray>"
+
+"ui.queue.item.size.name": "<gold><b>Game size:</b></gold> $0"
+"ui.queue.item.size.lore.1": "<gray>Change the size of the game</gray>"
+"ui.queue.item.size.lore.2": "<gray><white>Left click:</white> previous ($0)</gray>"
+"ui.queue.item.size.lore.3": "<gray><white>Right click:</white> next ($0)</gray>"
+
 
 "queue.item.layout_editor": "<gold>Edit kit layout</gold>"
 
+
+"msg.error.no_game_found": "${prefix} <red>It looks like there is no other player hosting a kit right now.</red> Try again later or host your own kit!"
 "msg.error.no_kit": "<red>Cannot join a game without a kit!</red>"
 
 "msg.start.1": "${prefix} <gold><b>Information about this game:</b></gold>"
