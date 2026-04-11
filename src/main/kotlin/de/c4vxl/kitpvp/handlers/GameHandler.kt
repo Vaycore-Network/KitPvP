@@ -31,10 +31,11 @@ class GameHandler : Listener {
         // Set world game rules
         mapOf(
             // Kit rules based game rules
-            listOf(GameRules.BLOCK_DROPS, GameRules.MOB_DROPS, GameRules.ENTITY_DROPS) to rules.isItemDrop,
+            listOf(GameRules.MOB_DROPS, GameRules.ENTITY_DROPS) to rules.isItemDrop,
             listOf(GameRules.KEEP_INVENTORY) to rules.isKeepInventory,
             listOf(GameRules.ADVANCE_TIME) to rules.isAlwaysDay,
             listOf(GameRules.FALL_DAMAGE) to rules.isFallDamage,
+            listOf(GameRules.BLOCK_DROPS) to rules.isBlockDrops,
 
             // Independent game rules
             listOf(GameRules.ADVANCE_WEATHER) to false

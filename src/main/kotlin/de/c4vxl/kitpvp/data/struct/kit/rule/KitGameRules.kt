@@ -12,6 +12,7 @@ data class KitGameRules(
     var isKeepInventory: Boolean = true,
     var isFallDamage: Boolean = true,
     var isItemDrop: Boolean = true,
+    var isBlockDrops: Boolean = true,
     var isAllowBlockBreaking: Boolean = true,
     var isAllowBlockPlacing: Boolean = true,
     var isExplosionDamage: Boolean = true,

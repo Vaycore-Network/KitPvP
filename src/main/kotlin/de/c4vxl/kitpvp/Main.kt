@@ -6,7 +6,6 @@ import de.c4vxl.kitpvp.data.Database
 import de.c4vxl.kitpvp.handlers.*
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIPaperConfig
-import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 

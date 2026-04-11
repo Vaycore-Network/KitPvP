@@ -13,6 +13,7 @@ enum class KitGameRule(
     KEEP_INVENTORY(Material.CHEST, Boolean::class.java),
     FALL_DAMAGE(Material.DIAMOND_BOOTS, Boolean::class.java),
     ITEM_DROP(Material.STRING, Boolean::class.java),
+    BLOCK_DROPS(Material.GRASS_BLOCK, Boolean::class.java),
     ALLOW_BLOCK_BREAKING(Material.IRON_PICKAXE, Boolean::class.java),
     ALLOW_BLOCK_PLACING(Material.SCAFFOLDING, Boolean::class.java),
     EXPLOSION_DAMAGE(Material.TNT, Boolean::class.java),
