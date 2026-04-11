@@ -62,6 +62,13 @@ class KitRulesHandler : Listener {
     }
 
     @EventHandler
+    fun onItemDrop(event: PlayerDropItemEvent) {
+        handle(event.player.gma.game, { !it.rules.isItemDrop }) { _, _ ->
+            event.isCancelled = true
+        }
+    }
+
+    @EventHandler
     fun onExplosion(event: EntityExplodeEvent) {
         handle(getGame(event.entity.world), { !it.rules.isExplosionDamage }) { _, _ ->
             event.blockList().clear()
