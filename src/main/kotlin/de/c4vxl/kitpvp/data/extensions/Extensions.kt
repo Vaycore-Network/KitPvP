@@ -4,12 +4,15 @@ import de.c4vxl.gamemanager.gma.game.Game
 import de.c4vxl.gamemanager.gma.game.type.GameID
 import de.c4vxl.kitpvp.data.struct.game.GameData
 import de.c4vxl.kitpvp.data.struct.kit.Kit
+import org.bukkit.entity.Player
+import java.util.*
 
 /**
  * Extends objects with extra data/functions
  */
 object Extensions {
     val data = mutableMapOf<GameID, GameData>()
+    private val lastKit = mutableMapOf<UUID, Kit>()
 
     /**
      * Returns game kit data
@@ -22,4 +25,14 @@ object Extensions {
      */
     val Kit.isServerKit get() =
         this.metadata.createdBy.isBlank()
+
+    /**
+     * Holds the last kit a player has played
+     */
+    var Player.lastKit: Kit?
+        get() = this@Extensions.lastKit[this.uniqueId]
+        set(value) {
+            value?.let { this@Extensions.lastKit[this.uniqueId] = it } ?:
+            this@Extensions.lastKit.remove(this.uniqueId)
+        }
 }

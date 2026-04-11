@@ -5,11 +5,14 @@ import de.c4vxl.gamelobby.lobby.Lobby
 import de.c4vxl.gamelobby.lobby.Lobby.isInLobby
 import de.c4vxl.gamemanager.gma.GMA
 import de.c4vxl.gamemanager.gma.event.player.GamePlayerJoinedEvent
+import de.c4vxl.gamemanager.gma.event.player.GamePlayerQuitEvent
 import de.c4vxl.gamemanager.gma.player.GMAPlayer.Companion.gma
 import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.Main
+import de.c4vxl.kitpvp.data.extensions.Extensions
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
+import de.c4vxl.kitpvp.data.extensions.Extensions.lastKit
 import de.c4vxl.kitpvp.ui.kit.KitUI
 import de.c4vxl.kitpvp.utils.Item.enchantmentGlow
 import de.c4vxl.kitpvp.utils.Item.onRightClick
@@ -21,6 +24,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
+import org.bukkit.event.player.PlayerQuitEvent
 
 /**
  * Intercepts the GameLobby plugin and adds KitPvP-specific logic
@@ -90,5 +94,15 @@ class LobbyHandler : Listener {
                 player.teleport(it)
             }
         }
+    }
+
+    @EventHandler
+    fun onQuit(event: PlayerQuitEvent) {
+        event.player.lastKit = null
+    }
+
+    @EventHandler
+    fun onGameQuit(event: GamePlayerQuitEvent) {
+        event.player.bukkitPlayer.lastKit = event.game.kitData.kit
     }
 }

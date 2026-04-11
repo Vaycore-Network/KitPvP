@@ -184,6 +184,8 @@
 
 "queue.item.layout_editor": "<gold>Edit kit layout</gold>"
 
+"msg.error.no_kit": "<red>Cannot join a game without a kit!</red>"
+
 "msg.start.1": "${prefix} <gold><b>Information about this game:</b></gold>"
 "msg.start.2": "${prefix} <gray>Kit Name:</gray> <white>$0</white>"
 "msg.start.3": "${prefix} <gray>Kit Creator:</gray> <white>$0</white>"

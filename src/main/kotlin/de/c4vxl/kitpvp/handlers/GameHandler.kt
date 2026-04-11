@@ -1,15 +1,15 @@
 package de.c4vxl.kitpvp.handlers
 
 import de.c4vxl.gamemanager.gma.event.game.*
-import de.c4vxl.gamemanager.gma.event.player.GamePlayerEquipEvent
-import de.c4vxl.gamemanager.gma.event.player.GamePlayerLoseEvent
-import de.c4vxl.gamemanager.gma.event.player.GamePlayerRespawnEvent
-import de.c4vxl.gamemanager.gma.event.player.GamePlayerWinEvent
+import de.c4vxl.gamemanager.gma.event.player.*
 import de.c4vxl.gamemanager.gma.game.Game
 import de.c4vxl.gamemanager.gma.player.GMAPlayer.Companion.gma
 import de.c4vxl.kitpvp.Main
 import de.c4vxl.kitpvp.data.extensions.Extensions.data
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
+import de.c4vxl.kitpvp.data.extensions.Extensions.lastKit
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.ComponentLike
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.GameRules
@@ -34,6 +34,31 @@ class GameHandler : Listener {
 
         // Initialize rounds remaining flag
         game.kitData.roundsRemaining = kit?.rules?.numRounds ?: 1
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    fun onJoin(event: GamePlayerJoinedEvent) {
+        val kit = event.game.kitData.kit
+        val lastKit = event.player.bukkitPlayer.lastKit
+
+        // Game doesn't have a kit
+        // Try to force the players last kit
+        if (kit == null && lastKit != null) {
+            event.game.kitData.kit = lastKit
+            return
+        }
+
+        // Kit is not null
+        // Don't need to stop the game
+        if (kit != null)
+            return
+
+        // No kit possible
+        // Stop game
+        event.game.stop()
+        Bukkit.getScheduler().callSyncMethod(Main.instance) {
+            event.player.bukkitPlayer.sendActionBar(event.player.language.child("kitpvp").getCmp("msg.error.no_kit"))
+        }
     }
 
     @EventHandler
