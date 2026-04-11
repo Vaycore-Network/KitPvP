@@ -3,6 +3,8 @@ package de.c4vxl.kitpvp.handlers
 import de.c4vxl.gamelobby.events.lobby.LobbyPlayerEquipEvent
 import de.c4vxl.gamelobby.lobby.Lobby
 import de.c4vxl.gamelobby.lobby.Lobby.isInLobby
+import de.c4vxl.gamemanager.gma.event.player.GamePlayerJoinedEvent
+import de.c4vxl.gamemanager.gma.player.GMAPlayer.Companion.gma
 import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.Main
@@ -68,10 +70,20 @@ class LobbyHandler : Listener {
         if (UIHandler.nonClosable.contains(event.player.uniqueId))
             return
 
-        // Equip lobby items
-        event.player.location.let {
-            Lobby.send(player)
-            player.teleport(it)
+        if (player.gma.isInGame) {
+            // Equip lobby items
+            event.player.location.let {
+                // Fake another join event to equip player with lobby-queue items
+                GamePlayerJoinedEvent(player.gma, player.gma.game!!)
+                    .callEvent()
+                player.teleport(it)
+            }
+        } else {
+            // Equip lobby items
+            event.player.location.let {
+                Lobby.send(player)
+                player.teleport(it)
+            }
         }
     }
 }
