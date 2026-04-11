@@ -136,6 +136,8 @@ class KitEditorGameRules(
 
             addItem(createGameRuleItem(KitGameRule.BLOCK_DROPS, editor.kit.rules.isBlockDrops) { editor.kit.rules.isBlockDrops = it })
 
+            addItem(createGameRuleItem(KitGameRule.ENTITY_DROPS, editor.kit.rules.isEntityDrops) { editor.kit.rules.isEntityDrops = it })
+
             addItem(createGameRuleItem(KitGameRule.EXPLOSION_DAMAGE, editor.kit.rules.isExplosionDamage) { editor.kit.rules.isExplosionDamage = it })
 
             addItem(createGameRuleItem(KitGameRule.NUM_ROUNDS, editor.kit.rules.numRounds) {
