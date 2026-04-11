@@ -13,6 +13,8 @@ import org.bukkit.entity.Player
 data class GameData(
     val game: Game,
     var kit: Kit? = null,
+    var roundsRemaining: Int = -1,
+    var roundsWon: MutableMap<Int, Int> = mutableMapOf(),
     val offsets: MutableMap<Player, Map<Int, Int>> = mutableMapOf()
 ) {
     /**

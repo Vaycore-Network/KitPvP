@@ -1,14 +1,21 @@
 package de.c4vxl.kitpvp.handlers
 
+import de.c4vxl.gamemanager.gma.event.game.GameStartEvent
 import de.c4vxl.gamemanager.gma.event.game.GameStopEvent
 import de.c4vxl.gamemanager.gma.event.game.GameWorldLoadedEvent
 import de.c4vxl.gamemanager.gma.event.player.GamePlayerEquipEvent
+import de.c4vxl.gamemanager.gma.event.player.GamePlayerLooseEvent
+import de.c4vxl.gamemanager.gma.event.player.GamePlayerRespawnEvent
+import de.c4vxl.gamemanager.gma.event.player.GamePlayerWinEvent
+import de.c4vxl.gamemanager.gma.game.Game
+import de.c4vxl.gamemanager.gma.player.GMAPlayer.Companion.gma
+import de.c4vxl.gamemanager.gma.team.Team
 import de.c4vxl.kitpvp.Main
 import de.c4vxl.kitpvp.data.extensions.Extensions.data
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
 import org.bukkit.Bukkit
+import org.bukkit.GameMode
 import org.bukkit.GameRules
-import org.bukkit.attribute.Attribute
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
@@ -20,6 +27,15 @@ class GameHandler : Listener {
     @EventHandler
     fun onGameStop(event: GameStopEvent) {
         data.remove(event.game.id)
+    }
+
+    @EventHandler
+    fun onGameStart(event: GameStartEvent) {
+        val game = event.game
+        val kit = game.kitData.kit
+
+        // Initialize rounds remaining flag
+        game.kitData.roundsRemaining = kit?.rules?.numRounds ?: 1
     }
 
     @EventHandler
@@ -51,6 +67,9 @@ class GameHandler : Listener {
         if (event.reason == GamePlayerEquipEvent.Reason.RESPAWN && !kit.rules.isKeepInventory)
             return
 
+        // Reset player
+        player.gma.reset()
+
         // Equip player
         kit.equip(player, event.game.kitData.getPlayerOffsets(player))
         kit.rules.giveEffects(player)
@@ -58,5 +77,76 @@ class GameHandler : Listener {
         // Set max health
         player.maxHealth = kit.rules.health
         player.health = player.maxHealth
+    }
+
+    /**
+     * Resets all players of a game for the next round
+     * @param game The game
+     */
+    private fun reset(game: Game) {
+        val map = game.worldManager.map ?: return
+        game.playerManager.alivePlayers.forEach { player ->
+            // Teleport to spawn
+            val team = player.team ?: return@forEach
+            val spawn = map.getSpawnLocation(team.id) ?: map.world?.spawnLocation ?: return@forEach
+            player.bukkitPlayer.teleport(spawn)
+
+            // Equip players
+            GamePlayerEquipEvent(player, game, GamePlayerEquipEvent.Reason.GAME_START)
+                .callEvent()
+        }
+    }
+
+    @EventHandler
+    fun onPlayerRespawn(event: GamePlayerRespawnEvent) {
+        val game = event.game.takeIf { it.isRunning } ?: return
+
+        // Filter for teams that are still alive
+        val aliveTeams = game.teamManager.teams.values.filter {
+            it.players.any { m ->
+                m.game != game                                                             // player has left the game
+                        || m.isSpectating || m.bukkitPlayer.gameMode == GameMode.SPECTATOR // player is spectating
+                        || m.bukkitPlayer.uniqueId == event.player.bukkitPlayer.uniqueId   // player just died
+            }
+        }
+
+        // Still more than one team alive
+        // Let player spectate
+        if (aliveTeams.size > 1) {
+            event.player.bukkitPlayer.gameMode = GameMode.SPECTATOR
+            return
+        }
+
+        // Only one team alive -> this team won
+        val winner = aliveTeams.firstOrNull() ?: return
+        game.kitData.roundsWon[winner.id] = game.kitData.roundsWon.getOrDefault(winner.id, 0) + 1
+
+        // Advance to next round
+        game.kitData.roundsRemaining -= 1
+        reset(game)
+
+        // Still rounds remaining
+        if (game.kitData.roundsRemaining >= 1)
+            return
+
+        // No more rounds remaining
+        // Stop the game
+
+        // Evaluate winning teams
+        val roundsWon = game.kitData.roundsWon
+            .mapNotNull { (game.teamManager.teams[it.key] ?: return@mapNotNull null) to it.value }
+            .sortedByDescending { it.second }
+
+        if (roundsWon.isNotEmpty()) {
+            val highestNumWins = roundsWon.maxOfOrNull { it.second } ?: 0
+            val winnerTeams = roundsWon.filter { it.second == highestNumWins }.map { it.first }.toSet()
+            val otherTeams = roundsWon.filterNot { it.first in winnerTeams }.map { it.first }
+
+            // Call win/loose events
+            winnerTeams.forEach { it.players.forEach { player -> GamePlayerWinEvent(player, game).callEvent() } }
+            otherTeams.forEach { it.players.forEach { player -> GamePlayerLooseEvent(player, game).callEvent() } }
+        }
+
+        game.stop()
     }
 }
