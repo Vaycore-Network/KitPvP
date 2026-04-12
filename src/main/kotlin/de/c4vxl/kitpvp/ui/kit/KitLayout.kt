@@ -22,36 +22,48 @@ import org.bukkit.inventory.ItemStack
 class KitLayout(
     val player: Player,
     val kit: Kit,
+    val mode: KitUI.Mode,
     val onChoose: (Map<Int, Int>) -> Unit,
-    val offsets: Map<Int, Int> = mapOf(),
+    var offsets: Map<Int, Int> = mapOf(),
     val returnTo: UI? = null,
     val language: Language = player.language.child("kitpvp")
 ): UI {
     private val baseInventory: Inventory
         get() =
-        Bukkit.createInventory(null, 9 * 6, language.getCmp("ui.layout.title"))
+        Bukkit.createInventory(null, 9 * 6, language.getCmp("ui.layout.title.${mode.name.lowercase()}", kit.metadata.name))
             .apply {
                 // Separators
                 addMarginItems(36..44, material = Material.LIGHT_BLUE_STAINED_GLASS_PANE, name = language.get("ui.layout.item.hotbar_sep"))
                 addMarginItems(0..8, material = Material.LIGHT_BLUE_STAINED_GLASS_PANE, name = language.get("ui.layout.item.inventory_sep"))
 
                 // Save
-                setItem(0, ItemBuilder(Material.GREEN_STAINED_GLASS_PANE, language.getCmp("ui.layout.save"))
-                    .guiItem {
-                        val updated = buildMap {
-                            for (i in 0..35) {
-                                val offset = if (i < 9) 45 else 0
-                                put(i, KitItem.fromItem(it.inventory.getItem(i + offset)) ?: continue)
+                if (mode == KitUI.Mode.EDIT)
+                    setItem(0, ItemBuilder(Material.GREEN_STAINED_GLASS_PANE, language.getCmp("ui.layout.save"))
+                        .guiItem {
+                            val updated = buildMap {
+                                for (i in 0..35) {
+                                    val offset = if (i < 9) 45 else 0
+                                    put(i, KitItem.fromItem(it.inventory.getItem(i + offset)) ?: continue)
+                                }
                             }
+
+                            val offsets = KitPreferenceUtils.calculateOffsets(kit.inventory, updated)
+
+                            // Exit
+                            returnTo?.open() ?: player.closeInventory()
+                            onChoose(offsets)
                         }
+                        .build().immovable())
 
-                        val offsets = KitPreferenceUtils.calculateOffsets(kit.inventory, updated)
-
-                        // Exit
-                        returnTo?.open() ?: player.closeInventory()
-                        onChoose(offsets)
-                    }
-                    .build().immovable())
+                if (mode == KitUI.Mode.EDIT)
+                    setItem(8, ItemBuilder(Material.GRINDSTONE, language.getCmp("ui.layout.reset"))
+                        .guiItem {
+                            // Exit
+                            offsets = emptyMap()
+                            open()
+                            player.playSound(player.location, Sound.BLOCK_GRINDSTONE_USE, 5f, 1f)
+                        }
+                        .build().immovable())
 
                 // Add armor items
                 setItem(2, armorItem("helmet", kit.helmet, Material.ARMOR_STAND))
@@ -66,7 +78,10 @@ class KitLayout(
                     val offset = if (i < 9) 45 else 0
 
                     inventory.getOrDefault(i, null)?.let { item ->
-                        setItem(i + offset, item.builder.build())
+                        setItem(i + offset, item.builder.build().apply {
+                            if (mode == KitUI.Mode.CHOOSE)
+                                immovable()
+                        })
                     }
                 }
             }

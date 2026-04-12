@@ -8,6 +8,7 @@ import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.Main
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
 import de.c4vxl.kitpvp.ui.kit.KitLayout
+import de.c4vxl.kitpvp.ui.kit.KitUI
 import de.c4vxl.kitpvp.utils.Item.enchantmentGlow
 import de.c4vxl.kitpvp.utils.Item.onRightClick
 import org.bukkit.Bukkit
@@ -55,7 +56,7 @@ class QueueHandler : Listener {
         )
             .onRightClick {
                 val kit = game.kitData.kit ?: return@onRightClick
-                KitLayout(player, kit, { game.kitData.offsets[player] = it }, game.kitData.getPlayerOffsets(player))
+                KitLayout(player, kit, KitUI.Mode.EDIT, { game.kitData.offsets[player] = it }, game.kitData.getPlayerOffsets(player))
             }
             .build()
             .enchantmentGlow()

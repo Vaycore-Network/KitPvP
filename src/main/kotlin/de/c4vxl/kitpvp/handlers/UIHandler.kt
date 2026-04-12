@@ -30,6 +30,9 @@ class UIHandler : Listener {
          * Marks an item as unable to be moved bypassing UIHandler.nonCancelled
          */
         fun ItemStack.immovable(): ItemStack {
+            if (!this.hasItemMeta())
+                return this
+
             this.itemMeta = this.itemMeta.apply {
                 persistentDataContainer.set(NamespacedKey.minecraft("kitpvp_immovable"), PersistentDataType.BOOLEAN, true)
             }

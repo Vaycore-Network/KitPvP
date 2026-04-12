@@ -176,6 +176,7 @@
 "ui.kits.item.kit.lore.2": "<gray>Last edited:</gray> <white>$1</white>"
 "ui.kits.item.kit.lore.3": ""
 "ui.kits.item.kit.lore.choose": "<gray><white>Click</white> to select</gray>"
+"ui.kits.item.kit.lore.view": "<gray><white>Right click</white> to view</gray>"
 "ui.kits.item.kit.lore.edit": "<gray><white>Click</white> to edit</gray>"
 
 "ui.kits.item.your_kits.name": "<gold>Your kits →</gold>"
@@ -186,8 +187,10 @@
 
 "kit.name.untitled": "New Kit"
 
-"ui.layout.title": "<red>Customize kit layout</red>"
+"ui.layout.title.edit": "<red>Customize kit layout</red>"
+"ui.layout.title.choose": "<red>View kit</red> <gray>| $0</gray>"
 "ui.layout.save": "<green>Save and exit layout editor</green>"
+"ui.layout.reset": "<red>Reset layout</red>"
 "ui.layout.item.hotbar_sep": "<gold>Hotbar ↓</gold>"
 "ui.layout.item.inventory_sep": "<gold>Inventory ↓</gold>"
 

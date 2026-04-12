@@ -99,25 +99,39 @@ class KitUI(
         ItemBuilder(
             kit.iconMaterial,
             language.getCmp("ui.kits.item.kit.name", kit.kit.metadata.name),
-            lore = mutableListOf(language.getCmp("ui.kits.item.kit.lore.${mode.name.lowercase()}") as TextComponent)
+            lore = buildList {
+                add(language.getCmp("ui.kits.item.kit.lore.${mode.name.lowercase()}"))
+
+                if (mode == Mode.CHOOSE)
+                    add(language.getCmp("ui.kits.item.kit.lore.view"))
+            }
         )
             .guiItem {
                 when (mode) {
-                    Mode.CHOOSE -> onChoose?.invoke(kit.kit)
-                    Mode.EDIT -> KitLayout(
-                        player,
-                        kit.kit,
-                        { updated ->
-                            Database.update(player) {
-                                this.offsets[kit.kit.metadata.name] = updated
-                            }
-                        },
-                        Database.get(player).offsets.getOrDefault(kit.kit.metadata.name, mapOf()),
-                        this
-                    )
+                    Mode.CHOOSE -> {
+                        if (it.isRightClick)
+                            openEditor(kit.kit, Mode.CHOOSE)
+                        else
+                            onChoose?.invoke(kit.kit)
+                    }
+                    Mode.EDIT -> openEditor(kit.kit, Mode.EDIT)
                 }
             }
             .build()
+
+    private fun openEditor(kit: Kit, mode: Mode) =
+        KitLayout(
+            player,
+            kit,
+            mode,
+            { updated ->
+                Database.update(player) {
+                    this.offsets[kit.metadata.name] = updated
+                }
+            },
+            Database.get(player).offsets.getOrDefault(kit.metadata.name, mapOf()),
+            this
+        )
 
     private fun customKitItem(kit: Kit, idx: Int) =
         ItemBuilder(
@@ -130,11 +144,19 @@ class KitUI(
                     add(language.getCmp("ui.kits.item.kit.lore.${i + 1}", kit.metadata.createdAt, kit.metadata.lastEdit) as TextComponent)
                 }
                 add(language.getCmp("ui.kits.item.kit.lore.${mode.name.lowercase()}") as TextComponent)
+
+                if (mode == Mode.CHOOSE)
+                    add(language.getCmp("ui.kits.item.kit.lore.view"))
             }.toMutableList()
         )
             .guiItem {
                 when (mode) {
-                    Mode.CHOOSE -> onChoose?.invoke(kit)
+                    Mode.CHOOSE -> {
+                        if (it.isRightClick)
+                            openEditor(kit, Mode.CHOOSE)
+                        else
+                            onChoose?.invoke(kit)
+                    }
                     Mode.EDIT -> KitInspector(player, kit, onUpdate = { updated ->
                         Database.update(player) {
                             if (updated == null) {
