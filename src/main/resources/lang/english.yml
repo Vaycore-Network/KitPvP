@@ -187,6 +187,9 @@
 "ui.kits.item.notice.no_kits.0": "<red>No kits found!</red>"
 "ui.kits.item.notice.no_kits.1": "<gray>It looks like you haven't created a kit of your own yet!</gray>"
 "ui.kits.item.notice.no_kits.2": "<gray>Once you create one, it will show up here.</gray>"
+"ui.kits.item.last_kit.name": "<gold>Use last kit</gold>"
+"ui.kits.item.last_kit.lore.1": "<gray>Choose the last kit that you have played.</gray>"
+"ui.kits.item.last_kit.lore.2": "<gold>Kit: <white>$0</white></gold>"
 
 "kit.name.untitled": "New Kit"
 

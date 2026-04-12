@@ -6,6 +6,7 @@ import de.c4vxl.gamemanager.utils.ItemBuilder
 import de.c4vxl.kitpvp.data.Database
 import de.c4vxl.kitpvp.data.PlayerKitData
 import de.c4vxl.kitpvp.data.ServerKits
+import de.c4vxl.kitpvp.data.extensions.Extensions.lastKit
 import de.c4vxl.kitpvp.data.struct.kit.Kit
 import de.c4vxl.kitpvp.data.struct.kit.ServerKit
 import de.c4vxl.kitpvp.ui.inspect.KitInspector
@@ -55,6 +56,18 @@ class KitUI(
                     .guiItem { open(Page.CUSTOM_KITS) }
                     .build().let { if (currentPage == Page.CUSTOM_KITS) it.enchantmentGlow() else it })
 
+                // Last kit item
+                if (mode == Mode.CHOOSE)
+                    player.lastKit?.let { lastKit ->
+                        setItem(8, ItemBuilder(
+                            Material.GREEN_SHULKER_BOX,
+                            language.getCmp("ui.kits.item.last_kit.name"),
+                            lore = listOf(
+                                language.getCmp("ui.kits.item.last_kit.lore.1"),
+                                language.getCmp("ui.kits.item.last_kit.lore.2", lastKit.metadata.name)
+                            )
+                        ).guiItem { onChoose?.invoke(lastKit) }.build())
+                    }
 
                 when (currentPage) {
                     // Add custom kits
