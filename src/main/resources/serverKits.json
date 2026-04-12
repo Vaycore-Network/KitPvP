@@ -64,5 +64,24 @@
       "offhand": {"material": "TOTEM_OF_UNDYING", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {}},
       "rules": {"isAlwaysDay": true, "isKeepInventory": true, "isFallDamage": false, "isItemDrop": true, "isBlockDrops": true, "isEntityDrops": true, "isAllowBlockBreaking": true, "isAllowBlockPlacing": true, "isExplosionDamage": true, "isFriendlyFire": false, "isSelfDamage": true, "numRounds": 3, "health": 20.0, "activeEffects": {}}
     }
+  },
+  {
+    "icon": "DIAMOND_AXE",
+    "kit": {
+      "metadata": {"name": "Axe", "createdBy": "", "createdAt": "", "lastEdit": ""},
+      "inventory": {
+        "0": {"material": "DIAMOND_SWORD", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {}},
+        "1": {"material": "DIAMOND_AXE", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {}},
+        "4": {"material": "CROSSBOW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {}},
+        "5": {"material": "BOW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {}},
+        "8": {"material": "ARROW", "amount": 8, "unbreakable": false, "enchantments": {}, "effects": {}}
+      },
+      "helmet": {"material": "DIAMOND_HELMET", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {}},
+      "chestplate": {"material": "DIAMOND_CHESTPLATE", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {}},
+      "leggings": {"material": "DIAMOND_LEGGINGS", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {}},
+      "boots": {"material": "DIAMOND_BOOTS", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {}},
+      "offhand": {"material": "SHIELD", "amount": 1, "unbreakable": false, "enchantments": {"DURABILITY": 3}, "effects": {}},
+      "rules": {"isAlwaysDay": true, "isKeepInventory": true, "isFallDamage": true, "isItemDrop": true, "isBlockDrops": true, "isEntityDrops": true, "isAllowBlockBreaking": true, "isAllowBlockPlacing": true, "isExplosionDamage": true, "isFriendlyFire": false, "isSelfDamage": true, "numRounds": 3, "health": 20.0, "activeEffects": {}}
+    }
   }
 ]
