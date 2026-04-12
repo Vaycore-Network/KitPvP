@@ -68,6 +68,7 @@ class GameHandler : Listener {
     @EventHandler
     fun onGameStarted(event: GameStartedEvent) {
         val kit = event.game.kitData.kit ?: return
+        val map = event.game.worldManager.map
 
         event.game.players.forEach { player ->
             val lang = player.language.child("kitpvp")
@@ -86,7 +87,7 @@ class GameHandler : Listener {
 
                     .appendNewline().append(lang.getCmp("msg.start.4", kit.rules.numRounds.toString()))
                     .appendNewline().append(lang.getCmp("msg.start.5", event.game.size.toString()))
-                    .appendNewline().append(lang.getCmp("msg.start.6", event.game.worldManager.map?.name ?: "/"))
+                    .appendNewline().append(lang.getCmp("msg.start.6", map?.name ?: "/", map?.builders?.joinToString(", ") ?: "/"))
                     .appendNewline()
                     .appendNewline().append(lang.getCmp("msg.start.7"))
             )
