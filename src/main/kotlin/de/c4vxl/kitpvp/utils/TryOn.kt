@@ -43,7 +43,7 @@ object TryOn {
         kit.rules.giveEffects(player)
 
         // Blind player
-        player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, 9999999, 255, false, false, false))
+        player.addPotionEffect(PotionEffect(PotionEffectType.BLINDNESS, PotionEffect.INFINITE_DURATION, 255, false, false, false))
 
         // Play sound
         player.playSound(player.location, Sound.BLOCK_BEACON_POWER_SELECT, 5f, 2f)
