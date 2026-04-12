@@ -144,6 +144,8 @@
 "editor.item.inv.offhand.lore.2": "<gray><gold>Remove</gold>: Drop</gray>"
 
 "ui.effect.item.save": "<green>Save and go back</green>"
+"ui.effect.item.next": "<gray>Next page</gray>"
+"ui.effect.item.previous": "<gray>Previous page</gray>"
 "ui.effect.item.reset": "<gold>Reset effects</gold>"
 "ui.effect.item.lore.1": "<gold>Current level:</gold> <gray>$0</gray>"
 "ui.effect.item.lore.2": "<white>Left click</white> <gray>to <b>add</b> one</gray>"

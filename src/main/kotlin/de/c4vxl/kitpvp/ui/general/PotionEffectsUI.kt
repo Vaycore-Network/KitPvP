@@ -34,17 +34,21 @@ class PotionEffectsUI(
     private val effects =
         Gson().fromJson<Map<String, String>>(Main.instance.dataFolder.resolve("potionEffects.json").readText(), Map::class.java)
             .mapNotNull { (key, value) ->
-                val type: PotionEffectType = PotionEffectType.values().find { it.name.lowercase() == key.lowercase() } ?: return@mapNotNull null
+                val type: PotionEffectType = PotionEffectType.values().find { it.key.key.lowercase() == key.lowercase() } ?: return@mapNotNull null
                 val material: Material = Material.entries.find { it.name.lowercase() == value.lowercase() } ?: return@mapNotNull null
 
                 type to material
             }.toMap()
 
+    private val numPages = effects.size / 14
+
+    private var page: Int = 0
+
     private val baseInventory: Inventory
         get() =
-            Bukkit.createInventory(null, 9 * 5, title)
+            Bukkit.createInventory(null, 9 * 6, title)
                 .apply {
-                    addMarginItems(0..17, 36..44, 0..27 step 9, 17..35 step 9)
+                    addMarginItems(0..17, 45..53, 0..45 step 9, 17..53 step 9)
 
                     // Back item
                     setItem(8, ItemBuilder(Material.GREEN_STAINED_GLASS_PANE, language.getCmp("ui.effect.item.save"))
@@ -60,46 +64,78 @@ class PotionEffectsUI(
                         }
                         .build())
 
-                    // Add items
-                    effects.forEach { (effect, icon) ->
-                        addItem(ItemBuilder(
-                            icon,
-                            Component.translatable(effect.translationKey()),
-                            lore = buildList {
-                                val old = old.getOrDefault(effect, Pair(0, 0))
-                                repeat(if (allowDuration) 7 else 4) { i -> add(
-                                    language.getCmp("ui.effect.item.lore.${i + 1}", old.first.toString(), old.second.toString()) as TextComponent
-                                ) }
-                            }.toMutableList()
+                    // Pagination items
+                    if (numPages > 1) {
+                        fun updatePage(change: Int) {
+                            page += change
+
+                            // Apply bounds
+                            if (page > numPages - 1)
+                                page = 0
+                            if (page < 0)
+                                page = numPages - 1
+
+                            open()
+                        }
+
+                        setItem(
+                            48, ItemBuilder(Material.ARROW, language.getCmp("ui.effect.item.previous"))
+                            .guiItem { updatePage(-1) }.build()
                         )
-                            .guiItem { event ->
-                                val change = if (event.isRightClick) -1 else 1
-                                val current = old[effect] ?: Pair(0, 0)
-                                val currentValue = current.let {
-                                    if (event.isShiftClick) it.second
-                                    else it.first
-                                }
-                                val changedValue = max(0, min(currentValue + change, 999))
-                                val changed = if (event.isShiftClick) Pair(current.first, changedValue) else Pair(changedValue, current.second)
 
-                                if (changed.first == 0 && changed.second == 0)
-                                    old.remove(effect)
-                                else
-                                    old[effect] = changed
-
-                                open()
-                            }
-                            .build())
+                        setItem(
+                            50, ItemBuilder(Material.ARROW, language.getCmp("ui.effect.item.next"))
+                            .guiItem { updatePage(1) }.build()
+                        )
                     }
                 }
+
+    private fun getItemsForPage(page: Int) =
+        effects.toList().subList(14 * page, 14 * page + 14)
+            .map { (effect, icon) ->
+                ItemBuilder(
+                    icon,
+                    Component.translatable(effect.translationKey()),
+                    lore = buildList {
+                        val old = old.getOrDefault(effect, Pair(0, 0))
+                        repeat(if (allowDuration) 7 else 4) { i -> add(
+                            language.getCmp("ui.effect.item.lore.${i + 1}", old.first.toString(), old.second.toString()) as TextComponent
+                        ) }
+                    }.toMutableList()
+                )
+                    .guiItem { event ->
+                        val change = if (event.isRightClick) -1 else 1
+                        val current = old[effect] ?: Pair(0, 0)
+                        val currentValue = current.let {
+                            if (event.isShiftClick) it.second
+                            else it.first
+                        }
+                        val changedValue = max(0, min(currentValue + change, 999))
+                        val changed = if (event.isShiftClick) Pair(current.first, changedValue) else Pair(changedValue, current.second)
+
+                        if (changed.first == 0 && changed.second == 0)
+                            old.remove(effect)
+                        else
+                            old[effect] = changed
+
+                        open()
+                    }
+                    .build()
+            }
+
+    private fun open(page: Int) {
+        player.playSound(player.location, Sound.BLOCK_SCAFFOLDING_BREAK, 5f, 0.5f)
+        player.openInventory(baseInventory.apply {
+            getItemsForPage(page).forEach { addItem(it) }
+        })
+        player.inventory.clear()
+    }
 
     init {
         open()
     }
 
     private fun open() {
-        player.playSound(player.location, Sound.BLOCK_SCAFFOLDING_BREAK, 5f, 0.5f)
-        player.openInventory(baseInventory)
-        player.inventory.clear()
+        open(page)
     }
 }
