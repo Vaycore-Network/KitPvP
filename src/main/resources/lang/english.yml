@@ -211,7 +211,7 @@
 "ui.queue.item.size.lore.3": "<gray><white>Right click:</white> next ($0)</gray>"
 
 
-"queue.item.layout_editor": "<gold>Edit kit layout</gold>"
+"queue.item.layout_editor": "<gold>Edit kit layout (This round only)</gold>"
 "queue.msg.queuing": "<gray>Queuing for a game$0 (Found <white>$1/$2</white> players - Use <white>/quit</white> to leave)</gray>"
 
 
