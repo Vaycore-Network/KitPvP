@@ -3,6 +3,7 @@ package de.c4vxl.kitpvp.data
 import de.c4vxl.gamelobby.Main
 import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.kitpvp.data.struct.kit.Kit
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
 /**
@@ -12,7 +13,7 @@ object PlayerKitData {
     /**
      * Returns all kits a player owns
      */
-    fun getKits(player: Player, addExtra: Boolean) =
+    fun getKits(player: OfflinePlayer, addExtra: Boolean) =
         buildList {
             val numKits = Main.config.getInt("config.kits.num-kits", 6)
 
@@ -20,11 +21,10 @@ object PlayerKitData {
             addAll(Database.get(player).kits.take(numKits))
 
             // Add one extra kit if enough space
-            if (size < numKits && addExtra)
-                add(Kit.new(
-                    player.language.child("kitpvp").get("kit.name.untitled"),
-                    player
-                ))
+            if (size < numKits && addExtra) {
+                val language = player.player?.language?.child("kitpvp") ?: return@buildList
+                add(Kit.new(language.get("kit.name.untitled"), player))
+            }
         }
 
     /**

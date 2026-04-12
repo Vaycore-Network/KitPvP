@@ -9,6 +9,7 @@ import de.c4vxl.kitpvp.data.ServerKits
 import de.c4vxl.kitpvp.data.extensions.Extensions.lastKit
 import de.c4vxl.kitpvp.data.struct.kit.Kit
 import de.c4vxl.kitpvp.data.struct.kit.ServerKit
+import de.c4vxl.kitpvp.ui.general.PlayerSearchUI
 import de.c4vxl.kitpvp.ui.inspect.KitInspector
 import de.c4vxl.kitpvp.ui.type.UI
 import de.c4vxl.kitpvp.utils.Item
@@ -56,10 +57,26 @@ class KitUI(
                     .guiItem { open(Page.CUSTOM_KITS) }
                     .build().let { if (currentPage == Page.CUSTOM_KITS) it.enchantmentGlow() else it })
 
+                if (mode == Mode.CHOOSE)
+                    setItem(8, ItemBuilder(
+                        Material.NAME_TAG,
+                        language.getCmp("ui.kits.item.others_kits.name"),
+                        lore = listOf(language.getCmp("ui.kits.item.others_kits.desc"))
+                    ).guiItem {
+                        PlayerSearchUI(player, false, { other ->
+                            if (other == null) {
+                                player.sendMessage(language.getCmp("ui.kits.others_kits.error.invalid_player"))
+                                return@PlayerSearchUI
+                            }
+
+                            KitListUI(player, other, { onChoose?.invoke(it) }, this@KitUI)
+                        })
+                    }.build())
+
                 // Last kit item
                 if (mode == Mode.CHOOSE)
                     player.lastKit?.let { lastKit ->
-                        setItem(8, ItemBuilder(
+                        setItem(17, ItemBuilder(
                             Material.GREEN_SHULKER_BOX,
                             language.getCmp("ui.kits.item.last_kit.name"),
                             lore = listOf(
@@ -123,50 +140,55 @@ class KitUI(
                 when (mode) {
                     Mode.CHOOSE -> {
                         if (it.isRightClick)
-                            openEditor(kit.kit, Mode.CHOOSE)
+                            openEditor(player, kit.kit, Mode.CHOOSE, this)
                         else
                             onChoose?.invoke(kit.kit)
                     }
-                    Mode.EDIT -> openEditor(kit.kit, Mode.EDIT)
+                    Mode.EDIT -> openEditor(player, kit.kit, Mode.EDIT, this)
                 }
             }
             .build()
 
-    private fun openEditor(kit: Kit, mode: Mode) =
-        KitLayout(
-            player,
-            kit,
-            mode,
-            { updated ->
-                Database.update(player) {
-                    this.offsets[kit.metadata.name] = updated
-                }
-            },
-            Database.get(player).offsets.getOrDefault(kit.metadata.name, mapOf()),
-            this
-        )
+    companion object {
+        fun openEditor(player: Player, kit: Kit, mode: Mode, returnTo: UI?) =
+            KitLayout(
+                player,
+                kit,
+                mode,
+                { updated ->
+                    Database.update(player) {
+                        this.offsets[kit.metadata.name] = updated
+                    }
+                },
+                Database.get(player).offsets.getOrDefault(kit.metadata.name, mapOf()),
+                returnTo
+            )
+
+        fun customKitItem(kit: Kit, language: Language, mode: Mode) =
+            ItemBuilder(
+                if (kit.isEmpty) Material.WRITABLE_BOOK
+                else Material.BOOK,
+                language.getCmp("ui.kits.item.kit.name", kit.metadata.name),
+                lore = buildList {
+                    val start = if (kit.isEmpty) 3 else 0
+                    for (i in start..2) {
+                        add(language.getCmp("ui.kits.item.kit.lore.${i + 1}", kit.metadata.createdAt, kit.metadata.lastEdit) as TextComponent)
+                    }
+                    add(language.getCmp("ui.kits.item.kit.lore.${mode.name.lowercase()}") as TextComponent)
+
+                    if (mode == Mode.CHOOSE)
+                        add(language.getCmp("ui.kits.item.kit.lore.view"))
+                }.toMutableList()
+            )
+    }
 
     private fun customKitItem(kit: Kit, idx: Int) =
-        ItemBuilder(
-            if (kit.isEmpty) Material.WRITABLE_BOOK
-            else Material.BOOK,
-            language.getCmp("ui.kits.item.kit.name", kit.metadata.name),
-            lore = buildList {
-                val start = if (kit.isEmpty) 3 else 0
-                for (i in start..2) {
-                    add(language.getCmp("ui.kits.item.kit.lore.${i + 1}", kit.metadata.createdAt, kit.metadata.lastEdit) as TextComponent)
-                }
-                add(language.getCmp("ui.kits.item.kit.lore.${mode.name.lowercase()}") as TextComponent)
-
-                if (mode == Mode.CHOOSE)
-                    add(language.getCmp("ui.kits.item.kit.lore.view"))
-            }.toMutableList()
-        )
+        Companion.customKitItem(kit, language, mode)
             .guiItem {
                 when (mode) {
                     Mode.CHOOSE -> {
                         if (it.isRightClick)
-                            openEditor(kit, Mode.CHOOSE)
+                            openEditor(player, kit, Mode.CHOOSE, this)
                         else
                             onChoose?.invoke(kit)
                     }
@@ -186,8 +208,7 @@ class KitUI(
                         open()
                     }, returnTo = this@KitUI)
                 }
-            }
-            .build()
+            }.build()
 
     init {
         open()

@@ -181,7 +181,6 @@
 "ui.kits.item.kit.lore.choose": "<gray><white>Click</white> to select</gray>"
 "ui.kits.item.kit.lore.view": "<gray><white>Right click</white> to view</gray>"
 "ui.kits.item.kit.lore.edit": "<gray><white>Click</white> to edit</gray>"
-
 "ui.kits.item.your_kits.name": "<gold>Your kits →</gold>"
 "ui.kits.item.general_kits.name": "<gold>Global kits →</gold>"
 "ui.kits.item.notice.no_kits.0": "<red>No kits found!</red>"
@@ -190,6 +189,9 @@
 "ui.kits.item.last_kit.name": "<gold>Use last kit</gold>"
 "ui.kits.item.last_kit.lore.1": "<gray>Choose the last kit that you have played.</gray>"
 "ui.kits.item.last_kit.lore.2": "<gold>Kit: <white>$0</white></gold>"
+"ui.kits.item.others_kits.name": "<gold>Others kits</gold>"
+"ui.kits.item.others_kits.desc": "<gray>Search for other players kits</gray>"
+"ui.kits.others_kits.error.invalid_player": "${prefix} <red>That player doesn't exit!</red>"
 
 "kit.name.untitled": "New Kit"
 
@@ -221,6 +223,9 @@
 
 "ui.player_search.title": "<red>Search for player</red>"
 "ui.player_search.item.confirm": "<green>Search</green>"
+
+"ui.kits_list.title": "<red>$0s kits</red>"
+"ui.kits_list.item.head": "<gold>$0s kits</gold>"
 
 "queue.item.layout_editor": "<gold>Edit kit layout (This round only)</gold>"
 "queue.msg.queuing": "<gray>Queuing for a game$0 (Found <white>$1/$2</white> players - Use <white>/quit</white> to leave)</gray>"
