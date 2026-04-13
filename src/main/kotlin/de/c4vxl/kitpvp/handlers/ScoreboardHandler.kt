@@ -1,6 +1,7 @@
 package de.c4vxl.kitpvp.handlers
 
 import de.c4vxl.gamelobby.events.lobby.LobbyPlayerEquipEvent
+import de.c4vxl.gamelobby.lobby.Lobby.isInLobby
 import de.c4vxl.gamemanager.gma.event.game.GameEndEvent
 import de.c4vxl.gamemanager.gma.event.game.GameStartedEvent
 import de.c4vxl.gamemanager.gma.event.player.GamePlayerEquipEvent
@@ -19,6 +20,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.scoreboard.Criteria
 import org.bukkit.scoreboard.DisplaySlot
+import org.bukkit.scoreboard.Team
 
 /**
  * Displays a scoreboard on the side of games
@@ -45,6 +47,13 @@ class ScoreboardHandler : Listener {
     private fun display(player: Player, vararg lines: Component) {
         // Create new scoreboard
         player.scoreboard = Bukkit.getScoreboardManager().newScoreboard
+
+        // Disable collision if in lobby
+        if (player.isInLobby)
+            player.scoreboard.registerNewTeam(player.name).apply {
+                setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER)
+                addPlayer(player)
+            }
 
         // Create objective
         val objective = createObjective(player)
