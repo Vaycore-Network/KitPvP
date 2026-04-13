@@ -112,7 +112,8 @@ class GameHandler : Listener {
             listOf(GameRules.MOB_DROPS, GameRules.ENTITY_DROPS) to rules.isEntityDrops,
 
             // Independent game rules
-            listOf(GameRules.ADVANCE_WEATHER) to false
+            listOf(GameRules.ADVANCE_WEATHER) to false,
+            listOf(GameRules.LOCATOR_BAR) to false
         ).forEach { (gameRules, value) -> gameRules.forEach { world.setGameRule(it, value) } }
 
         // Set difficulty
