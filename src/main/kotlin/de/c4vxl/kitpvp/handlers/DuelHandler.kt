@@ -1,5 +1,6 @@
 package de.c4vxl.kitpvp.handlers
 
+import de.c4vxl.gamemanager.gma.event.player.GamePlayerJoinedEvent
 import de.c4vxl.gamemanager.gma.event.player.GamePlayerQuitEvent
 import de.c4vxl.kitpvp.Main
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
@@ -26,5 +27,19 @@ class DuelHandler : Listener {
 
         // End game
         event.game.stop()
+    }
+
+    @EventHandler
+    fun onJoin(event: GamePlayerJoinedEvent) {
+        // Not a duel
+        if (!event.game.kitData.isDuel)
+            return
+
+        // Not part of the duel
+        if (event.player != event.game.kitData.challenged && event.player != event.game.owner)
+            return
+
+        // Send to lobby
+        event.player.quit()
     }
 }
