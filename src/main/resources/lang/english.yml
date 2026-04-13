@@ -236,7 +236,7 @@
 "ui.kits_list.title": "<red>$0s kits</red>"
 "ui.kits_list.item.head": "<gold>$0s kits</gold>"
 
-"queue.item.layout_editor": "<gold>Edit kit layout (This round only)</gold>"
+"queue.item.layout_editor": "<gold>Edit kit layout (This game only)</gold>"
 "queue.msg.queuing": "<gray>Queuing for a game$0 (Found <white>$1/$2</white> players - Use <white>/quit</white> to leave)</gray>"
 
 
