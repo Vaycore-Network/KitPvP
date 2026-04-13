@@ -1,6 +1,5 @@
 package de.c4vxl.kitpvp.handlers
 
-import de.c4vxl.gamemanager.gma.GMA
 import de.c4vxl.gamemanager.gma.event.player.GamePlayerSelfDamageEvent
 import de.c4vxl.gamemanager.gma.event.team.GamePlayerFriendlyFireEvent
 import de.c4vxl.gamemanager.gma.game.Game
@@ -10,7 +9,7 @@ import de.c4vxl.kitpvp.data.extensions.Extensions.game
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
 import de.c4vxl.kitpvp.data.struct.kit.Kit
 import org.bukkit.Bukkit
-import org.bukkit.World
+import org.bukkit.Material
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
@@ -18,6 +17,9 @@ import org.bukkit.event.block.BlockExplodeEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.player.PlayerDropItemEvent
+import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.ItemStack
+import kotlin.math.min
 
 /**
  * This handler takes care of implementing kit rules that need custom handling
@@ -86,5 +88,32 @@ class KitRulesHandler : Listener {
     fun onSelfDamage(event: GamePlayerSelfDamageEvent) {
         val kit = event.game.kitData.kit ?: return
         event.allow = kit.rules.isSelfDamage
+    }
+
+    @EventHandler
+    fun onSoup(event: PlayerInteractEvent) {
+        val item = event.item ?: return
+
+        // Not mushroom stew
+        if (item.type != Material.MUSHROOM_STEW)
+            return
+
+        handle(event.player.gma.game, { it.rules.isSoupPvP }, { _, _ ->
+            // Heal player
+            event.player.health = min(
+                event.player.health + 7.0,
+                event.player.maxHealth
+            )
+
+            // Add food levels
+            event.player.foodLevel = min(event.player.foodLevel + 5, 20)
+            event.player.saturation = 10f
+
+            // Play sound
+            event.player.playSound(event.player.location, event.player.getEatingSound(item), 1f, 1f)
+
+            // Set to empty bowl
+            event.player.inventory.setItemInMainHand(ItemStack(Material.BOWL))
+        })
     }
 }

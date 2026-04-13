@@ -21,6 +21,7 @@ data class KitGameRules(
     var isSelfDamage: Boolean = true,
     var isResetMap: Boolean = true,
     var isOldPvP: Boolean = false,
+    var isSoupPvP: Boolean = false,
     var numRounds: Int = 3,
     var health: Double = 20.0,
     var activeEffects: MutableMap<String, Int> = mutableMapOf()

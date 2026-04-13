@@ -22,6 +22,7 @@ enum class KitGameRule(
     SELF_DAMAGE(Material.ARROW, Boolean::class.java),
     RESET_MAP(Material.TNT_MINECART, Boolean::class.java),
     OLD_PVP(Material.IRON_SWORD, Boolean::class.java),
+    SOUP_PVP(Material.MUSHROOM_STEW, Boolean::class.java),
     NUM_ROUNDS(Material.COMPASS, Int::class.java),
     HEALTH(Material.GOLDEN_APPLE, Double::class.java),
     ACTIVE_EFFECTS(Material.BREWING_STAND, Potion::class.java)
