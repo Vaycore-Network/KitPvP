@@ -68,7 +68,9 @@ class Main : JavaPlugin() {
         DuelHandler()
         MapHandler()
         OldPvPHandler()
-        ScoreboardHandler()
+
+        if (config.getBoolean("config.scoreboards.enabled", true))
+            ScoreboardHandler()
 
         // Register commands
         DuelCommand

@@ -13,3 +13,7 @@ config:
 
   kits:
     num-kits: 6
+
+  scoreboards:
+    # If set to false: no scoreboards will be created
+    enabled: true
