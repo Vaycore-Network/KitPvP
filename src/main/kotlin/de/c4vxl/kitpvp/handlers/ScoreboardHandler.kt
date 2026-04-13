@@ -115,13 +115,15 @@ class ScoreboardHandler : Listener {
     fun onLobby(event: LobbyPlayerEquipEvent) {
         val lang = event.player.language.child("kitpvp")
 
-        display(
-            event.player,
-            Component.empty(),
-            lang.getCmp("scoreboard.lobby.1", event.player.name),
-            Component.text(" "),
-            lang.getCmp("scoreboard.lobby.2"),
-            lang.getCmp("scoreboard.lobby.3", PlayerKitData.getKits(event.player, false).size.toString(), PlayerKitData.numKits.toString())
-        )
+        Bukkit.getScheduler().callSyncMethod(Main.instance) {
+            display(
+                event.player,
+                Component.empty(),
+                lang.getCmp("scoreboard.lobby.1", event.player.name),
+                Component.text(" "),
+                lang.getCmp("scoreboard.lobby.2"),
+                lang.getCmp("scoreboard.lobby.3", PlayerKitData.getKits(event.player, false).size.toString(), PlayerKitData.numKits.toString())
+            )
+        }
     }
 }
