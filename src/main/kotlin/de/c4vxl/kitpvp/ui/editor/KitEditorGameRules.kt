@@ -146,6 +146,8 @@ class KitEditorGameRules(
 
             addItem(createGameRuleItem(KitGameRule.RESET_MAP, editor.kit.rules.isResetMap) { editor.kit.rules.isResetMap = it })
 
+            addItem(createGameRuleItem(KitGameRule.OLD_PVP, editor.kit.rules.isOldPvP) { editor.kit.rules.isOldPvP = it })
+
             addItem(createGameRuleItem(KitGameRule.NUM_ROUNDS, editor.kit.rules.numRounds) {
                 editor.kit.rules.numRounds = max(1, min(it, 10))
             })

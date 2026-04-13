@@ -62,6 +62,7 @@ class Main : JavaPlugin() {
         KitRulesHandler()
         DuelHandler()
         MapHandler()
+        OldPvPHandler()
 
         // Register commands
         DuelCommand
