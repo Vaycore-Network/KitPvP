@@ -61,6 +61,7 @@ class Main : JavaPlugin() {
         GameHandler()
         KitRulesHandler()
         DuelHandler()
+        MapHandler()
 
         // Register commands
         DuelCommand

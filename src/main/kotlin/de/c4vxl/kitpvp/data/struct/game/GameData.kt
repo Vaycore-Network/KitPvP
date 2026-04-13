@@ -6,6 +6,9 @@ import de.c4vxl.kitpvp.data.Database
 import de.c4vxl.kitpvp.data.extensions.Extensions.isServerKit
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
 import de.c4vxl.kitpvp.data.struct.kit.Kit
+import org.bukkit.Location
+import org.bukkit.block.Block
+import org.bukkit.block.data.BlockData
 import org.bukkit.entity.Player
 
 data class GameData(
@@ -15,7 +18,8 @@ data class GameData(
     var roundsWon: MutableMap<Int, Int> = mutableMapOf(),
     val offsets: MutableMap<Player, Map<Int, Int>> = mutableMapOf(),
     var challenged: GMAPlayer? = null,
-    var isTryOn: Boolean = false
+    var isTryOn: Boolean = false,
+    val blocksChanged: MutableMap<Location, BlockData> = mutableMapOf()
 ) {
     val isDuel: Boolean get() =
         challenged != null

@@ -170,6 +170,10 @@ class GameHandler : Listener {
             player.bukkitPlayer.sendTitlePart(TitlePart.TITLE, lang.getCmp("title.round.start.title", roundsPlayed.toString(), roundsTotal.toString()))
             player.bukkitPlayer.sendTitlePart(TitlePart.SUBTITLE, lang.getCmp("title.round.start.subtitle", roundsPlayed.toString(), roundsTotal.toString()))
         }
+
+        // Reset map
+        if (kit.rules.isResetMap)
+            MapHandler.reset(game)
     }
 
     @EventHandler

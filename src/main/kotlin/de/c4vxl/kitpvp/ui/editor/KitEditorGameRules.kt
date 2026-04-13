@@ -144,6 +144,8 @@ class KitEditorGameRules(
 
             addItem(createGameRuleItem(KitGameRule.SELF_DAMAGE, editor.kit.rules.isSelfDamage) { editor.kit.rules.isSelfDamage = it })
 
+            addItem(createGameRuleItem(KitGameRule.RESET_MAP, editor.kit.rules.isResetMap) { editor.kit.rules.isResetMap = it })
+
             addItem(createGameRuleItem(KitGameRule.NUM_ROUNDS, editor.kit.rules.numRounds) {
                 editor.kit.rules.numRounds = max(1, min(it, 10))
             })

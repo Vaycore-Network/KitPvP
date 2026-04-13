@@ -20,6 +20,7 @@ enum class KitGameRule(
     EXPLOSION_DAMAGE(Material.TNT, Boolean::class.java),
     FRIENDLY_FIRE(Material.IRON_SWORD, Boolean::class.java),
     SELF_DAMAGE(Material.ARROW, Boolean::class.java),
+    RESET_MAP(Material.TNT_MINECART, Boolean::class.java),
     NUM_ROUNDS(Material.COMPASS, Int::class.java),
     HEALTH(Material.GOLDEN_APPLE, Double::class.java),
     ACTIVE_EFFECTS(Material.BREWING_STAND, Potion::class.java)
