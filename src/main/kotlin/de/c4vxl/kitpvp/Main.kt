@@ -1,5 +1,6 @@
 package de.c4vxl.kitpvp
 
+import de.c4vxl.gamelobby.lobby.Lobby
 import de.c4vxl.gamemanager.language.Language
 import de.c4vxl.gamemanager.utils.ResourceUtils
 import de.c4vxl.kitpvp.command.DuelCommand
@@ -7,6 +8,7 @@ import de.c4vxl.kitpvp.data.Database
 import de.c4vxl.kitpvp.handlers.*
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIPaperConfig
+import org.bukkit.GameRules
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Logger
 
@@ -41,6 +43,9 @@ class Main : JavaPlugin() {
                     ResourceUtils.readResource("lang/$langName.yml", Main::class.java)
                 )
             }
+
+        // Disable announcements in lobby
+        Lobby.spawn.world.setGameRule(GameRules.SHOW_ADVANCEMENT_MESSAGES, false)
 
         // Save configs
         saveResource("config.yml", false)
