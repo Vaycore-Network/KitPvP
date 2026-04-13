@@ -129,5 +129,54 @@
       "boots": {"material": "DIAMOND_BOOTS", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {}},
       "rules": {"isAlwaysDay": true, "isKeepInventory": true, "isFallDamage": true, "isItemDrop": true, "isAllowBlockBreaking": true, "numRounds": 3, "health": 20.0, "activeEffects": {}, "isOldPvP":  true}
     }
+  },
+  {
+    "icon": "MUSHROOM_STEW",
+    "kit": {
+      "metadata": { "name": "Soup", "createdBy": "", "createdAt": "", "lastEdit": "" },
+      "inventory": {
+        "0": { "material": "DIAMOND_SWORD", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "1": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "2": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "3": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "4": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "5": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "7": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "6": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "8": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "35": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "34": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "33": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "32": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "31": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "30": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "29": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "28": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "27": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "18": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "19": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "20": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "21": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "22": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "23": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "24": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "15": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "14": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "13": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "12": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "11": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "10": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "9": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "16": { "material": "RED_MUSHROOM", "amount": 64, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "17": { "material": "BOWL", "amount": 64, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "26": { "material": "BROWN_MUSHROOM", "amount": 64, "unbreakable": false, "enchantments": {}, "effects": {} },
+        "25": { "material": "MUSHROOM_STEW", "amount": 1, "unbreakable": false, "enchantments": {}, "effects": {} }
+      },
+      "helmet": { "material": "DIAMOND_HELMET", "amount": 1, "unbreakable": true, "enchantments": {}, "effects": {}},
+      "chestplate": { "material": "DIAMOND_CHESTPLATE", "amount": 1, "unbreakable": true, "enchantments": {}, "effects": {}},
+      "leggings": { "material": "DIAMOND_LEGGINGS", "amount": 1, "unbreakable": true, "enchantments": {}, "effects": {}},
+      "boots": { "material": "DIAMOND_BOOTS", "amount": 1, "unbreakable": true, "enchantments": {}, "effects": {}},
+      "rules": { "isAlwaysDay": true, "isKeepInventory": true, "isFallDamage": true, "isItemDrop": true, "isBlockDrops": true, "isEntityDrops": true, "isAllowBlockBreaking": true, "isAllowBlockPlacing": true, "isExplosionDamage": true, "isFriendlyFire": false, "isSelfDamage": true, "isResetMap": true, "isOldPvP": true, "isSoupPvP": true, "numRounds": 3, "health": 20.0, "activeEffects": {}}
+    }
   }
 ]
