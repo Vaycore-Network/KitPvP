@@ -97,7 +97,7 @@ class KitUI(
                             }
 
                             if (kits.isEmpty() && !allowEdits)
-                                setItem(37, ItemBuilder(
+                                setItem(19, ItemBuilder(
                                     Material.RED_STAINED_GLASS_PANE,
                                     language.getCmp("ui.kits.item.notice.no_kits.0"),
                                     lore = mutableListOf(
