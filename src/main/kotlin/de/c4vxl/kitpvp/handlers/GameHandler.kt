@@ -229,15 +229,17 @@ class GameHandler : Listener {
             otherTeams.forEach { it.players.forEach { player -> GamePlayerLoseEvent(player, game).callEvent() } }
         }
 
-        // End game
-        GameEndEvent(
-            game,
-            winnerTeams.toList(),
-            otherTeams
-        ).callEvent()
+        Bukkit.getScheduler().callSyncMethod(Main.instance) {
+            // End game
+            GameEndEvent(
+                game,
+                winnerTeams.toList(),
+                otherTeams
+            ).callEvent()
 
-        // Stop game
-        game.stop()
+            // Stop game
+            game.stop()
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
