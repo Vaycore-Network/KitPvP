@@ -108,7 +108,7 @@ class MapHandler : Listener {
             return
 
         // Handle map breaking
-        if (!rules.isAllowMapBreaking) {
+        if (!rules.isAllowMapBreaking && !game.kitData.blocksChanged.containsKey(event.block.location)) {
             event.isCancelled = true
             return
         }
