@@ -126,7 +126,6 @@ class PotionEffectsUI(
             }
 
     private fun open(page: Int) {
-        println(page)
         player.playSound(player.location, Sound.BLOCK_SCAFFOLDING_BREAK, 5f, 0.5f)
         player.openInventory(baseInventory.apply {
             getItemsForPage(page).forEach { addItem(it) }
