@@ -36,7 +36,7 @@ class DuelHandler : Listener {
             return
 
         // Not part of the duel
-        if (event.player != event.game.kitData.challenged && event.player != event.game.owner)
+        if (event.player == event.game.kitData.challenged || event.player == event.game.owner)
             return
 
         // Send to lobby
