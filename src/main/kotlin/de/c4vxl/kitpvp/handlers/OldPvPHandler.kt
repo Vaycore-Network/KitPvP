@@ -14,7 +14,11 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerSwapHandItemsEvent
+import org.bukkit.inventory.EquipmentSlot
 
 /**
  * Tries to recreate the old pvp system experience
@@ -112,5 +116,35 @@ class OldPvPHandler : Listener {
             return
 
         event.isCancelled = true
+    }
+
+    @EventHandler
+    fun offhandSwap(event: PlayerSwapHandItemsEvent) {
+        val game = event.player.gma.game?.takeIf { it.isRunning } ?: return
+        val kit = game.kitData.kit ?: return
+
+        // Old pvp is not enabled
+        if (!kit.rules.isOldPvP)
+            return
+
+        event.isCancelled = true
+    }
+
+    @EventHandler
+    fun offhandSwap(event: InventoryClickEvent) {
+        val player = event.whoClicked as? Player ?: return
+        val game = player.gma.game?.takeIf { it.isRunning } ?: return
+        val kit = game.kitData.kit ?: return
+
+        // Old pvp is not enabled
+        if (!kit.rules.isOldPvP)
+            return
+
+        // Not offhand
+        val isOffhand = event.slotType == InventoryType.SlotType.QUICKBAR && event.slot == 40 && event.inventory.type == InventoryType.CRAFTING
+        if (!isOffhand)
+            return
+
+        event.isCancelled =true
     }
 }
