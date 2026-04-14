@@ -38,18 +38,16 @@ object Item {
      * @param action The function to run when item is clicked
      */
     fun ItemBuilder.onRightClick(action: (PlayerInteractEvent) -> Unit): ItemBuilder {
-        this.onEvent(PlayerInteractEvent::class.java, object : ItemBuilder.ItemEventHandler<PlayerInteractEvent> {
-            override fun handle(event: PlayerInteractEvent) {
-                // Action is not right-click
-                if (!listOf(Action.RIGHT_CLICK_BLOCK, Action.RIGHT_CLICK_AIR).contains(event.action))
-                    return
+        this.onEvent(PlayerInteractEvent::class.java) { event ->
+            // Action is not right-click
+            if (!listOf(Action.RIGHT_CLICK_BLOCK, Action.RIGHT_CLICK_AIR).contains(event.action))
+                return@onEvent
 
-                // Cancel event
-                event.isCancelled = true
+            // Cancel event
+            event.isCancelled = true
 
-                action.invoke(event)
-            }
-        })
+            action.invoke(event)
+        }
 
         return this
     }
@@ -59,11 +57,7 @@ object Item {
      * @param action The function to run when item is dropped
      */
     fun ItemBuilder.onDrop(action: (PlayerDropItemEvent) -> Unit): ItemBuilder {
-        this.onEvent(PlayerDropItemEvent::class.java, object : ItemBuilder.ItemEventHandler<PlayerDropItemEvent> {
-            override fun handle(event: PlayerDropItemEvent) {
-                action(event)
-            }
-        })
+        this.onEvent(PlayerDropItemEvent::class.java) { action(it) }
 
         return this
     }
@@ -73,23 +67,21 @@ object Item {
      * @param action The action to happen when the item gets clicked
      */
     fun ItemBuilder.guiItem(action: ((InventoryClickEvent) -> Unit)? = null): ItemBuilder {
-        this.onEvent(InventoryClickEvent::class.java, object : ItemBuilder.ItemEventHandler<InventoryClickEvent> {
-            override fun handle(event: InventoryClickEvent) {
-                // GMA triggers this event also if only event.cursor is present
-                // We only care about event.currentItem
-                // So exit if it isn't present
-                if (event.currentItem == null)
-                    return
+        this.onEvent(InventoryClickEvent::class.java) { event ->
+            // GMA triggers this event also if only event.cursor is present
+            // We only care about event.currentItem
+            // So exit if it isn't present
+            if (event.currentItem == null)
+                return@onEvent
 
-                if (event.whoClicked.type != EntityType.PLAYER)
-                    return
+            if (event.whoClicked.type != EntityType.PLAYER)
+                return@onEvent
 
-                // Cancel event
-                event.isCancelled = true
+            // Cancel event
+            event.isCancelled = true
 
-                action?.invoke(event)
-            }
-        })
+            action?.invoke(event)
+        }
 
         return this
     }

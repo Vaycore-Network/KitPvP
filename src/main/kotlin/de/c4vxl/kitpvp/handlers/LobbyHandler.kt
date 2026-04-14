@@ -89,24 +89,22 @@ class LobbyHandler : Listener {
             Material.IRON_SWORD,
             lang.getCmp("lobby.item.queue.name")
         )
-            .onEvent(PlayerInteractEvent::class.java, object : ItemBuilder.ItemEventHandler<PlayerInteractEvent> {
-                override fun handle(event: PlayerInteractEvent) {
-                    if (!event.player.isInLobby)
-                        return
+            .onEvent(PlayerInteractEvent::class.java) { event ->
+                if (!event.player.isInLobby)
+                    return@onEvent
 
-                    // Queue game ui on right click
-                    if (event.action.isRightClick) {
-                        GameQueueUI(event.player)
-                        return
-                    }
-
-                    // Duel on left click
-                    if (event.action.isLeftClick) {
-                        openDuelUI(event.player, lang)
-                        return
-                    }
+                // Queue game ui on right click
+                if (event.action.isRightClick) {
+                    GameQueueUI(event.player)
+                    return@onEvent
                 }
-            })
+
+                // Duel on left click
+                if (event.action.isLeftClick) {
+                    openDuelUI(event.player, lang)
+                    return@onEvent
+                }
+            }
             .build().apply {
                 itemMeta = itemMeta.apply {
                     persistentDataContainer.set(NamespacedKey.minecraft("kitpvp_lobby_item"), PersistentDataType.STRING, "duel")
