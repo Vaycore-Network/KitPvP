@@ -47,7 +47,7 @@ class ScoreboardHandler : Listener {
     private fun display(player: Player, vararg lines: Component) {
         // Disable collision if in lobby
         if (player.isInLobby)
-            player.scoreboard.registerNewTeam(player.name).apply {
+            (player.scoreboard.getTeam(player.name) ?: player.scoreboard.registerNewTeam(player.name)).apply {
                 setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER)
                 addPlayer(player)
             }
