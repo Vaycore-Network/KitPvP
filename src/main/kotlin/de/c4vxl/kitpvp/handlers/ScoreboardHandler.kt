@@ -45,6 +45,10 @@ class ScoreboardHandler : Listener {
      * @param lines The lines to display
      */
     private fun display(player: Player, vararg lines: Component) {
+        // Create new scoreboard if scoreboard is main scoreboard
+        if (player.scoreboard == Bukkit.getScoreboardManager().mainScoreboard)
+            player.scoreboard = Bukkit.getScoreboardManager().newScoreboard
+
         // Disable collision if in lobby
         if (player.isInLobby)
             (player.scoreboard.getTeam(player.name) ?: player.scoreboard.registerNewTeam(player.name)).apply {
