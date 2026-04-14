@@ -40,6 +40,10 @@ class KitLayout(
                 if (mode == KitUI.Mode.EDIT)
                     setItem(0, ItemBuilder(Material.GREEN_STAINED_GLASS_PANE, language.getCmp("ui.layout.save"))
                         .guiItem {
+                            // Return if player has item in cursor
+                            if (!it.cursor.isEmpty)
+                                return@guiItem
+
                             val updated = buildMap {
                                 for (i in 0..35) {
                                     val offset = if (i < 9) 45 else 0
