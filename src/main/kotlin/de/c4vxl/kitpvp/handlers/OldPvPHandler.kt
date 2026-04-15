@@ -119,34 +119,4 @@ class OldPvPHandler : Listener {
 
         event.isCancelled = true
     }
-
-    @EventHandler
-    fun offhandSwap(event: PlayerSwapHandItemsEvent) {
-        val game = event.player.gma.game?.takeIf { it.isRunning } ?: return
-        val kit = game.kitData.kit ?: return
-
-        // Old pvp is not enabled
-        if (!kit.rules.isOldPvP)
-            return
-
-        event.isCancelled = true
-    }
-
-    @EventHandler
-    fun offhandSwap(event: InventoryClickEvent) {
-        val player = event.whoClicked as? Player ?: return
-        val game = player.gma.game?.takeIf { it.isRunning } ?: return
-        val kit = game.kitData.kit ?: return
-
-        // Old pvp is not enabled
-        if (!kit.rules.isOldPvP)
-            return
-
-        // Not offhand
-        val isOffhand = event.slotType == InventoryType.SlotType.QUICKBAR && event.slot == 40 && event.inventory.type == InventoryType.CRAFTING
-        if (!isOffhand)
-            return
-
-        event.isCancelled =true
-    }
 }

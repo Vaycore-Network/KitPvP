@@ -10,14 +10,18 @@ import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
 import de.c4vxl.kitpvp.data.struct.kit.Kit
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockExplodeEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityExplodeEvent
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.inventory.ItemStack
 import kotlin.math.min
 
@@ -115,5 +119,39 @@ class KitRulesHandler : Listener {
             // Set to empty bowl
             event.player.inventory.setItemInMainHand(ItemStack(Material.BOWL))
         })
+    }
+
+    @EventHandler
+    fun offhandSwap(event: PlayerSwapHandItemsEvent) {
+        val game = event.player.gma.game?.takeIf { it.isRunning } ?: return
+        val kit = game.kitData.kit ?: return
+
+        if (
+            !kit.rules.isOldPvP
+            && !kit.rules.isDisableOffhand
+        )
+            return
+
+        event.isCancelled = true
+    }
+
+    @EventHandler
+    fun offhandSwap(event: InventoryClickEvent) {
+        val player = event.whoClicked as? Player ?: return
+        val game = player.gma.game?.takeIf { it.isRunning } ?: return
+        val kit = game.kitData.kit ?: return
+
+        if (
+            !kit.rules.isOldPvP
+            && !kit.rules.isDisableOffhand
+        )
+            return
+
+        // Not offhand
+        val isOffhand = event.slotType == InventoryType.SlotType.QUICKBAR && event.slot == 40 && event.inventory.type == InventoryType.CRAFTING
+        if (!isOffhand)
+            return
+
+        event.isCancelled =true
     }
 }
