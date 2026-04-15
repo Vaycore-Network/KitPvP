@@ -6,6 +6,7 @@ import de.c4vxl.gamemanager.gma.game.type.GameID
 import de.c4vxl.gamemanager.gma.game.type.GameSize
 import de.c4vxl.gamemanager.gma.player.GMAPlayer.Companion.gma
 import de.c4vxl.gamemanager.language.Language.Companion.language
+import de.c4vxl.kitpvp.data.extensions.Extensions.isServerKit
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
 import de.c4vxl.kitpvp.data.struct.kit.Kit
 import org.bukkit.entity.Player
@@ -61,7 +62,7 @@ object Dueling {
         opponent.sendMessage(
             opponentLanguage.getCmp("msg.duel.request.1")
                 .appendNewline().append(opponentLanguage.getCmp("msg.duel.request.2", challenger.name))
-                .appendNewline().append(opponentLanguage.getCmp("msg.duel.request.3", kit.metadata.name))
+                .appendNewline().append(opponentLanguage.getCmp("msg.duel.request.3.${if (kit.isServerKit) "server" else "player"}", kit.metadata.name, if (!kit.isServerKit) kit.metadata.creatorPlayer.name ?: "/" else ""))
                 .appendNewline().append(opponentLanguage.getCmp("msg.duel.request.4"))
                 .appendNewline().append(opponentLanguage.getCmp("msg.duel.request.5", game.id.asString))
         )
