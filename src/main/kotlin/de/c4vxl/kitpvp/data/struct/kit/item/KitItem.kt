@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.PotionMeta
@@ -19,7 +20,8 @@ data class KitItem(
     var unbreakable: Boolean = false,
     var name: String? = null,
     var enchantments: MutableMap<String, Int> = mutableMapOf(),
-    var effects: MutableMap<String, Pair<Int, Int>> = mutableMapOf()
+    var effects: MutableMap<String, Pair<Int, Int>> = mutableMapOf(),
+    var isUndroppable: Boolean = false
 ) {
     val nameComponent: Component get() =
         // Load custom name as component
@@ -54,7 +56,10 @@ data class KitItem(
             unbreakable = unbreakable,
             enchantments = enchantmentMap,
             itemMeta = itemMeta
-        )
+        ).apply {
+            if (isUndroppable)
+                onEvent(PlayerDropItemEvent::class.java) { it.isCancelled = true }
+        }
 
     companion object {
         /**

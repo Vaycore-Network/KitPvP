@@ -147,6 +147,15 @@ class KitEditorEdit(
                             .build())
                     else
                         filler("effect")
+
+                    // Droppable
+                    setItem(40, ItemBuilder(Material.STRING, editor.language.getCmp("editor.page.edit.item.droppable.name.${!item.isUndroppable}"))
+                        .guiItem {
+                            item.isUndroppable = !item.isUndroppable
+                            onUpdate(item)
+                            open()
+                        }
+                        .build())
                 }
 
     init {

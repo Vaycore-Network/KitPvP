@@ -105,6 +105,9 @@
 "editor.page.edit.item.type.not_available": "<red>Change Material: Not available</red>"
 "editor.page.edit.item.effect.name": "<gold>Edit effects</gold>"
 "editor.page.edit.item.effect.not_available": "<red>Effects: Not available</red>"
+"editor.page.edit.item.droppable.name.true": "<gold>Allow dropping:</gold> <green>Yes</green>"
+"editor.page.edit.item.droppable.name.false": "<gold>Allow dropping:</gold> <red>No</red>"
+"editor.page.edit.item.droppable.lore": "<gray>If disabled: players will not be able to drop this item.</gray>"
 
 "editor.page.edit.effect.title": "${editor.page.edit.title} - Effects"
 
