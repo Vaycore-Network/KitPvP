@@ -26,6 +26,7 @@ enum class KitGameRule(
     ALLOW_MAP_BREAKING(Material.IRON_PICKAXE, Boolean::class.java),
     DISABLE_OFFHAND(Material.ITEM_FRAME, Boolean::class.java),
     DISABLE_HUNGER(Material.COOKED_BEEF, Boolean::class.java),
+    DISABLE_CRAFTING(Material.CRAFTING_TABLE, Boolean::class.java),
     NUM_ROUNDS(Material.COMPASS, Int::class.java),
     HEALTH(Material.GOLDEN_APPLE, Double::class.java),
     ACTIVE_EFFECTS(Material.BREWING_STAND, Potion::class.java)

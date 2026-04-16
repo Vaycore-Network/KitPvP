@@ -4,6 +4,7 @@ import de.c4vxl.gamemanager.gma.event.player.GamePlayerSelfDamageEvent
 import de.c4vxl.gamemanager.gma.event.team.GamePlayerFriendlyFireEvent
 import de.c4vxl.gamemanager.gma.game.Game
 import de.c4vxl.gamemanager.gma.player.GMAPlayer.Companion.gma
+import de.c4vxl.gamemanager.language.Language.Companion.language
 import de.c4vxl.kitpvp.Main
 import de.c4vxl.kitpvp.data.extensions.Extensions.game
 import de.c4vxl.kitpvp.data.extensions.Extensions.kitData
@@ -18,6 +19,7 @@ import org.bukkit.event.block.BlockExplodeEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
+import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerDropItemEvent
@@ -80,6 +82,15 @@ class KitRulesHandler : Listener {
     fun onExplosion(event: BlockExplodeEvent) {
         handle(event.block.world.game, { !it.rules.isExplosionDamage }) { _, _ ->
             event.blockList().clear()
+        }
+    }
+
+    @EventHandler
+    fun onCraft(event: CraftItemEvent) {
+        val player = event.whoClicked as? Player ?: return
+        handle(player.gma.game, { it.rules.isDisableCrafting }) { _, _ ->
+            event.isCancelled = true
+            player.sendMessage(player.language.child("kitpvp").getCmp("msg.game.rule.crafting.disabled"))
         }
     }
 

@@ -42,6 +42,9 @@
 "rule.explosion_damage.name.true": "<gold>Explosions break blocks:</gold> <green>Yes</green>"
 "rule.explosion_damage.name.false": "<gold>Explosions break blocks:</gold> <red>No</red>"
 "rule.explosion_damage.desc": "<gray>If disabled: explosions won't damage any surrounding blocks</gray>"
+"rule.disable_crafting.name.true": "<gold>Disable crafting:</gold> <green>Yes</green>"
+"rule.disable_crafting.name.false": "<gold>Disable crafting:</gold> <red>No</red>"
+"rule.disable_crafting.desc": "<gray>If enabled: players won't be able to craft new items</gray>"
 "rule.allow_block_breaking.name.true": "<gold>Allow block breaking:</gold> <green>Yes</green>"
 "rule.allow_block_breaking.name.false": "<gold>Allow block breaking:</gold> <red>No</red>"
 "rule.allow_block_breaking.desc": "<gray>If disabled: players won't be able to break blocks</gray>"
@@ -248,6 +251,7 @@
 "queue.item.skip": "<green>Skip queue</green> <gray>| Right click</gray>"
 "queue.msg.queuing": "<gray>Queuing for a game$0 (Found <white>$1/$2</white> players - Use <white>/quit</white> to leave)</gray>"
 
+"msg.game.rule.crafting.disabled": "${prefix} <red>You are not allowed to craft in this kit!</red>"
 "msg.queue.skip.already": "${prefix} <red>You have already voted to skip this queue!</red>"
 "msg.queue.skip.success": "${prefix} <green>Voted to skip the queue.</green> <gray><white>$0</white> more vote(s) needed!</gray>"
 "msg.queue.skipped": "${prefix} <green>Skipping queue...</green>"
