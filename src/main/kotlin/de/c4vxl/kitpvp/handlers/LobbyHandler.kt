@@ -65,7 +65,7 @@ class LobbyHandler : Listener {
 
             event.player.setCooldown(Material.RED_DYE, 1 * 20)
             event.player.setCooldown(Material.LIME_DYE, 1 * 20)
-            Lobby.send(event.player)
+            LobbyPlayerEquipEvent(event.player).callEvent()
         }.build())
 
         // Kit editor
