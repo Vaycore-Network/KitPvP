@@ -1,25 +1,13 @@
-# ⚔️ KitPvP
+# KitPvP
+A competitive PvP gamemode where players fight against each other using predefined or custom created kits. The goal is to improve your combat skills, earn kills, climb leaderboards, and become the strongest fighter in the arena.
 
-A highly customizable Minecraft KitPvP minigame, featuring player-created kits, server-defined kits, advanced game rules, and full UI-based kit management.
+This plugin implements the complete KitPvP experience, including predefined server kits, customizable kits, and advanced combat features.
 
-Built on top of [GameManagementAPI](https://github.com/GameManagementAPI/), this plugin provides a modern and extensible KitPvP game-mode.
+## Installation
+> [!NOTE]
+> This Plugin is build on top of the [GameManagementAPI](https://gamemanagementapi.github.io/docs/getting-started#what-is-gamemanagementapi)
 
----
-
-### Requirements
-**KitPvP depends on both GameManager and GameLobby and will not function without them.**
-
-Download and install the latest versions of them before starting the server:
-https://github.com/GameManagementAPI/GameManager/releases/latest
-https://github.com/GameManagementAPI/GameLobby/releases/latest
-
-### Installation
-1. Download the [latest release](https://github.com/c4vxl/KitPvP/releases/latest).
-2. Place the jar file into your servers plaugins folder.
-3. Ensure GameManager and GameLobby are installed and configured to your liking.
-4. Start your server.
-5. Edit `config.yml` to customize database and behavioural settings if needed.
-
----
-
-A project by [c4vxl](https://c4vxl.de)
+1. Download the [latest version](https://github.com/c4vxl/KitPvP/releases/latest) of this plugin
+2. and move it into the `plugins` folder of your server
+3. Download and install the latest version of [GameManager](https://github.com/GameManagementAPI/GameManager). _You can read more about the installation [here](https://gamemanagementapi.github.io/docs/first-steps/installation#1-installing-the-gamemanager-plugin)_.
+4. Start your server
